@@ -1,9 +1,11 @@
-import { Common } from './twilio.common';
+import * as common from './twilio.common';
 import * as app from 'tns-core-modules/application';
 
 declare var com: any;
 
-export class Twilio extends Common {
+export const getAccessToken = common.getAccessToken;
+
+export class Twilio extends common.Common {
 
   constructor(accessToken: string) {
     super(accessToken);

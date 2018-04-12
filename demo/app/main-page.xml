@@ -23,20 +23,24 @@
       <TextField
         text="{{ option1.key }}"
         hint="key1"
+        class="option"
       />
       <TextField
         text="{{ option1.value }}"
         hint="value1"
+        class="option"
       />
     </StackLayout>
     <StackLayout orientation="horizontal">
       <TextField
         text="{{ option2.key }}"
         hint="key2"
+        class="option"
       />
       <TextField
         text="{{ option2.value }}"
         hint="value2"
+        class="option"
       />
     </StackLayout>
     <Button class="bg-primary call-button" text="CALL" tap="{{ onCall }}" />

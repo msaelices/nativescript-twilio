@@ -2,13 +2,14 @@ import { Observable } from 'tns-core-modules/data/observable';
 import * as dialogs from 'tns-core-modules/ui/dialogs';
 
 import * as Permissions from 'nativescript-permissions';
-import { Twilio } from 'nativescript-twilio';
+import { getAccessToken, Twilio } from 'nativescript-twilio';
 
 declare var android: any;
 
 export class HelloWorldModel extends Observable {
   public message: string;
-  public accessToken: string = '';
+  public accessTokenUrl: string = '';
+  public authorizationHeader: string = '';
   public phoneNumber: string = '';
   public option1: any = {
     key: '',
@@ -31,31 +32,40 @@ export class HelloWorldModel extends Observable {
   }
 
   public onCall(): void {
-    console.log('Calling to ', this.phoneNumber);
-    console.log('Access token:', this.accessToken);
-    this.twilio = new Twilio(this.accessToken);
-    const callListener = {
-      onConnectFailure(call, error) {
-        dialogs.alert(`connection failure: ${error}`)
-      },
-      onConnected (call) {
-        dialogs.alert(`call connected`)
-      },
-      onDisconnected (call) {
-        dialogs.alert('disconnected')
-      }
-    };
-
-    let options = {};
-
-    if (this.option1.key) {
-      options[this.option1.key] = this.option1.value
-    }
-    if (this.option2.key) {
-      options[this.option2.key] = this.option2.value
+    let headers = {};
+    if (this.authorizationHeader) {
+      headers['Authorization'] = this.authorizationHeader;
     }
 
-    console.dir(options)
-    this.twilio.makeCall(this.phoneNumber, callListener, options);
+    getAccessToken(this.accessTokenUrl, headers)
+      .then((token) => {
+        this.twilio = new Twilio(token);
+        const callListener = {
+          onConnectFailure(call, error) {
+            dialogs.alert(`connection failure: ${error}`);
+          },
+          onConnected (call) {
+            dialogs.alert(`call connected`);
+          },
+          onDisconnected (call) {
+            dialogs.alert('disconnected');
+          }
+        };
+
+        let options = {};
+        if (this.option1.key) {
+          options[this.option1.key] = this.option1.value
+        }
+        if (this.option2.key) {
+          options[this.option2.key] = this.option2.value
+        }
+
+        console.log('Calling to ', this.phoneNumber);
+        this.twilio.makeCall(this.phoneNumber, callListener, options);
+      })
+    .catch((error) => {
+      console.error(error);
+      dialogs.alert(error);
+    })
   }
 }

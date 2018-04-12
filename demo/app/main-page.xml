@@ -3,22 +3,26 @@
   <StackLayout class="p-20">
     <StackLayout>
       <TextField
-        text="{{ accessToken }}"
-        hint="Enter Twilio Access Token"
+        text="{{ accessTokenUrl }}"
+        hint="URL for getting a Twilio Access Token"
+      />
+      <TextField
+        text="{{ authorizationHeader }}"
+        hint="Value for authorization header"
       />
       <TextField
         text="{{ phoneNumber }}"
-        hint="Enter phone number (i.e +34606049850)"
+        hint="Phone number (i.e +34606049850)"
       />
     </StackLayout>
     <StackLayout orientation="horizontal">
       <TextField
         text="{{ option1.key }}"
-        hint="Enter option1.key"
+        hint="option1.key"
       />
       <TextField
         text="{{ option1.value }}"
-        hint="Enter option1.value"
+        hint="option1.value"
       />
     </StackLayout>
     <StackLayout orientation="horizontal">

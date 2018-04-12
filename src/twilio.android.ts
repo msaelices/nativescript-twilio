@@ -23,7 +23,7 @@ export class Twilio extends common.Common {
     const listener = new com.twilio.voice.Call.Listener(callListener)
 
     // TODO: instead of returning an Android Call class, declare a non-platform
-    // specific class which wrapps iOS and Android
+    // specific class that wraps both iOS and Android
     return com.twilio.voice.Voice.call(
       app.android.context,
       this.accessToken,

@@ -1,6 +1,36 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="pageLoaded" class="page"
   xmlns:ui="nativescript-twilio">
   <StackLayout class="p-20">
-    <Label text="{{ message }}" class="t-20 text-center c-black" textWrap="true"/>
+    <StackLayout>
+      <TextField
+        text="{{ accessToken }}"
+        hint="Enter Twilio Access Token"
+      />
+      <TextField
+        text="{{ phoneNumber }}"
+        hint="Enter phone number (i.e +34606049850)"
+      />
+    </StackLayout>
+    <StackLayout orientation="horizontal">
+      <TextField
+        text="{{ option1.key }}"
+        hint="Enter option1.key"
+      />
+      <TextField
+        text="{{ option1.value }}"
+        hint="Enter option1.value"
+      />
+    </StackLayout>
+    <StackLayout orientation="horizontal">
+      <TextField
+        text="{{ option2.key }}"
+        hint="Enter option2.key"
+      />
+      <TextField
+        text="{{ option2.value }}"
+        hint="Enter option2.value"
+      />
+    </StackLayout>
+    <Button class="bg-primary call-button" text="CALL" tap="{{ onCall }}" />
   </StackLayout>
 </Page>

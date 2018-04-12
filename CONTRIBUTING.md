@@ -37,13 +37,13 @@ Before you begin:
 
 Following these steps is the best way to get your code included in the project:
 
-1. Fork and clone the nativescript-plugin-seed repo:
+1. Fork and clone the nativescript-twilio repo:
 ```bash
-git clone https://github.com/<your-git-username>/nativescript-plugin-seed.git
+git clone https://github.com/msaelices/nativescript-twilio.git
 # Navigate to the newly cloned directory
-cd nativescript-plugin-seed
+cd nativescript-twilio
 # Add an "upstream" remote pointing to the original repo.
-git remote add upstream https://github.com/NativeScript/nativescript-plugin-seed.git
+git remote add upstream https://github.com/msaelices/nativescript-twilio.git
 ```
 2. Create a branch for your PR
 ```bash
@@ -53,7 +53,7 @@ git checkout -b <my-fix-branch> master
 3. The fun part! Make your code changes. Make sure you:
     - Follow the [code conventions guide](https://github.com/NativeScript/NativeScript/blob/master/CodingConvention.md).
     - Follow the [commit message guidelines](https://github.com/NativeScript/NativeScript/blob/pr-template/CONTRIBUTING.md#commit-messages)
-    - Setup your development workflow. The seed itself is a plugin so you can follow the [development setup][https://github.com/NativeScript/nativescript-plugin-seed#development-setup] described in the README.
+    - Setup your development workflow. The seed itself is a plugin so you can follow the [development setup][https://github.com/NativeScript/nativescript-seed#development-setup] described in the README.
     - Write unit tests for your fix or feature. If this is not possible, explain how your change can be tested.
         > NOTE: For changes in the postclone step, make sure you create tests in `seed-tests/postclone.tests.js`!
 
@@ -70,10 +70,10 @@ git checkout -b <my-fix-branch> master
 git push origin <my-fix-branch> --force
 ```
 
-7. [Submit your pull request](https://github.com/NativeScript/nativescript-plugin-seed/compare) and compare to `NativeScript/nativescript-plugin-seed`. Please, fill in the Pull Request template - it will help us better understand the PR and increase the chances of it getting merged quickly.
+7. [Submit your pull request](https://github.com/msaelices/nativescript-twilio/compare) and compare to `msaelices/nativescript-twilio`. Please, fill in the Pull Request template - it will help us better understand the PR and increase the chances of it getting merged quickly.
 
-It's our turn from there on! We will review the PR and discuss changes you might have to make before merging it! Thanks! 
+It's our turn from there on! We will review the PR and discuss changes you might have to make before merging it! Thanks!
 
 ## Where to Start
 
-If you want to contribute, but you are not sure where to start - look for issues labeled [`help wanted`](https://github.com/NativeScript/nativescript-plugin-seed/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22).
+If you want to contribute, but you are not sure where to start - look for issues labeled [`help wanted`](https://github.com/msaelices/nativescript-twilio/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22).

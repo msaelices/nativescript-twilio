@@ -22,21 +22,21 @@
     <StackLayout orientation="horizontal">
       <TextField
         text="{{ option1.key }}"
-        hint="option1.key"
+        hint="key1"
       />
       <TextField
         text="{{ option1.value }}"
-        hint="option1.value"
+        hint="value1"
       />
     </StackLayout>
     <StackLayout orientation="horizontal">
       <TextField
         text="{{ option2.key }}"
-        hint="Enter option2.key"
+        hint="key2"
       />
       <TextField
         text="{{ option2.value }}"
-        hint="Enter option2.value"
+        hint="value2"
       />
     </StackLayout>
     <Button class="bg-primary call-button" text="CALL" tap="{{ onCall }}" />

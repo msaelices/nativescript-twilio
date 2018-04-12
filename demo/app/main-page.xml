@@ -2,18 +2,22 @@
   xmlns:ui="nativescript-twilio">
   <StackLayout class="p-20">
     <StackLayout>
+      <Label text="Access Token URL" />
       <TextField
         text="{{ accessTokenUrl }}"
         hint="URL for getting a Twilio Access Token"
       />
+      <Label text="Authorization header" />
       <TextField
         text="{{ authorizationHeader }}"
-        hint="Value for authorization header"
+        hint="Token somesecrettoken"
       />
+      <Label text="Phone to call" />
       <TextField
         text="{{ phoneNumber }}"
-        hint="Phone number (i.e +34606049850)"
+        hint="+34606049850"
       />
+      <Label text="Other options for twilio.makeCall method" />
     </StackLayout>
     <StackLayout orientation="horizontal">
       <TextField

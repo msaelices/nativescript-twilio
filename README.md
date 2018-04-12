@@ -32,21 +32,22 @@ If you want a quickstart, clone the repo, `cd src`, and `npm run demo.android`.
 
   // The following endpoint should return a JSON like this:
   // {"token": "somevalidtwilioaccesstoken"}
-  const accessTokenUrl = 'http://yourserver/path/to/access-token'
+  const accessTokenUrl = 'http://yourserver/path/to/access-token';
+  const headers = {'Authorization': 'Token sometoken'};
 
-  getAccessToken(accessTokenURL, {'Authorization': 'Token sometoken'})
+  getAccessToken(accessTokenURL, headers)
     .then((token) => { // token is now a valid Twilio Access Token
       const twilio = new Twilio(token);
 
       const callListener = {
         onConnectFailure(call, error) {
-          dialogs.alert(`connection failure: ${error}`)
+          dialogs.alert(`connection failure: ${error}`);
         },
         onConnected (call) {
-          dialogs.alert(`call connected`)
+          dialogs.alert(`call connected`);
         },
         onDisconnected (call) {
-          dialogs.alert('disconnected')
+          dialogs.alert('disconnected');
         }
       };
 

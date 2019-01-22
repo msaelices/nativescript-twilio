@@ -22,7 +22,7 @@ tns plugin add nativescript-twilio
 
 ### Demo App
 
-If you want a quickstart, clone the repo, `cd src`, and `npm run demo.android`.
+If you want a quickstart, clone the repo, `cd src`, and `npm run demo.android` or `npm run demo.ios`.
 
 ### Integrating into your NativeScript app
 

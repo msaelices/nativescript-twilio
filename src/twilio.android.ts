@@ -2,6 +2,7 @@ import * as common from './twilio.common';
 import * as app from 'tns-core-modules/application';
 
 declare var com: any;
+declare var java: any;
 
 export const getAccessToken = common.getAccessToken;
 
@@ -14,10 +15,10 @@ export class Twilio extends common.Common {
   public makeCall(phoneNumber, callListener, options: any = {}): any {
     let optionsMap = new java.util.HashMap();
 
-    optionsMap.put('To', phoneNumber);
+    optionsMap.put(new java.lang.String('To'), phoneNumber);
 
     Object.keys(options).forEach((key) => {
-      optionsMap.put(key, options[key]);
+      optionsMap.put(new java.lang.String(key), options[key]);
     })
 
     const listener = new com.twilio.voice.Call.Listener(callListener)

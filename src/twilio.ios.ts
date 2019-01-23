@@ -37,9 +37,10 @@ class CallDelegate extends NSObject implements TVOCallDelegate {
 
 export class Twilio extends common.Common {
 
-  public makeCall(phoneNumber, callListener, options: any = {}): any {
+  public makeCall(senderPhoneNumber, phoneNumber, callListener, options: any = {}): any {
     const callDelegate = CallDelegate.initWithListener(callListener);
 
+    options.From = senderPhoneNumber;
     options.To = phoneNumber;
     const params = NSDictionary.dictionaryWithDictionary(options);
 

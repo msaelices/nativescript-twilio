@@ -30,5 +30,5 @@ export abstract class Common extends Observable {
     this.accessToken = accessToken;
   }
 
-  public abstract makeCall(phoneNumber, callListener, options): any;
+  public abstract makeCall(senderPhoneNumber, phoneNumber, callListener, options): any;
 }

@@ -1,5 +1,6 @@
 import { Observable } from 'tns-core-modules/data/observable';
 import * as dialogs from 'tns-core-modules/ui/dialogs';
+import { isAndroid } from 'tns-core-modules/platform';
 
 import * as Permissions from 'nativescript-permissions';
 import { getAccessToken, Twilio } from 'nativescript-twilio';
@@ -10,6 +11,7 @@ export class HelloWorldModel extends Observable {
   public message: string;
   public accessTokenUrl: string = '';
   public authorizationHeader: string = '';
+  public senderPhoneNumber: string = '';
   public phoneNumber: string = '';
   public option1: any = {
     key: '',
@@ -24,11 +26,13 @@ export class HelloWorldModel extends Observable {
   constructor() {
     super();
 
-    Permissions.requestPermission(android.Manifest.permission.RECORD_AUDIO, 'Needed for making calls').then(() => {
-      console.log('Permission granted!');
-    }).catch(() => {
-      console.log('Permission is not granted :(');
-    });
+    if (isAndroid) {
+      Permissions.requestPermission(android.Manifest.permission.RECORD_AUDIO, 'Needed for making calls').then(() => {
+        console.log('Permission granted!');
+      }).catch(() => {
+        console.log('Permission is not granted :(');
+      });
+    }
   }
 
   public onCall(): void {
@@ -39,6 +43,8 @@ export class HelloWorldModel extends Observable {
 
     getAccessToken(this.accessTokenUrl, headers)
       .then((token) => {
+        console.log(`Twilio access token: ${token}`);
+
         this.twilio = new Twilio(token);
         const callListener = {
           onConnectFailure(call, error) {
@@ -61,7 +67,7 @@ export class HelloWorldModel extends Observable {
         }
 
         console.log('Calling to ', this.phoneNumber);
-        this.twilio.makeCall(this.phoneNumber, callListener, options);
+        this.twilio.makeCall(this.senderPhoneNumber, this.phoneNumber, callListener, options);
       })
     .catch((error) => {
       console.error(error);

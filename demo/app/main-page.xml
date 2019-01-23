@@ -12,10 +12,15 @@
         text="{{ authorizationHeader }}"
         hint="Token somesecrettoken"
       />
+      <Label text="Sender phone number" />
+      <TextField
+        text="{{ senderPhoneNumber }}"
+        hint="+1512365432"
+      />
       <Label text="Phone to call" />
       <TextField
         text="{{ phoneNumber }}"
-        hint="+34606049850"
+        hint="+1512365443"
       />
       <Label text="Other options for twilio.makeCall method" />
     </StackLayout>

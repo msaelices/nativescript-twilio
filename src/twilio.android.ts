@@ -18,6 +18,7 @@ export class Twilio extends common.Common {
     let optionsMap = new java.util.HashMap();
 
     optionsMap.put('From', senderPhoneNumber);
+    optionsMap.put('CallerId', senderPhoneNumber);
     optionsMap.put('To', phoneNumber);
 
     Object.keys(options).forEach((key) => {

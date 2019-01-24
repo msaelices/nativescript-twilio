@@ -4,9 +4,13 @@ import { fetch } from 'tns-core-modules/fetch';
 
 export function getAccessToken(url:string, headers: any = {}): Promise<string> {
   return new Promise((resolve, reject) => {
-    fetch(url, headers)
+    fetch(url, {headers})
       .then((response) => {
-        return response.json();
+        if (response.ok) {
+          return response.json()
+        } else {
+          reject(new Error(`Response with status code: ${response.status}`))
+        }
       })
       .then((data) => {
         resolve(data.token);
@@ -26,5 +30,5 @@ export abstract class Common extends Observable {
     this.accessToken = accessToken;
   }
 
-  public abstract makeCall(phoneNumber, callListener, options): any;
+  public abstract makeCall(senderPhoneNumber, phoneNumber, callListener, options): any;
 }

@@ -3,5 +3,7 @@
 <plist version="1.0">
 <dict>
 	<!--Describe the permissions, features or other configurations required by your plugin for iOS.-->
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Needed for making outbound calls</string>
 </dict>
 </plist>

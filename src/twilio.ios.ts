@@ -40,8 +40,10 @@ export class Twilio extends common.Common {
   public makeCall(senderPhoneNumber, phoneNumber, callListener, options: any = {}): any {
     const callDelegate = CallDelegate.initWithListener(callListener);
 
+    options.CallerId = senderPhoneNumber;
     options.From = senderPhoneNumber;
     options.To = phoneNumber;
+
     const params = NSDictionary.dictionaryWithDictionary(options);
 
     return TwilioVoice.callParamsDelegate(this.accessToken, params, callDelegate);

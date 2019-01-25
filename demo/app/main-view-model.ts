@@ -9,10 +9,11 @@ declare var android: any;
 
 export class HelloWorldModel extends Observable {
   public message: string;
-  public accessTokenUrl: string = '';
+  public accessTokenUrl: string = 'https://lin.ngrok.io/accessToken';
   public authorizationHeader: string = '';
-  public senderPhoneNumber: string = '';
-  public phoneNumber: string = '';
+  public senderPhoneNumber: string = '+34606039750';
+  // public phoneNumber: string = '+639171137700';
+  public phoneNumber: string = '+34605264081';
   public option1: any = {
     key: '',
     value: '',

@@ -4,10 +4,15 @@
 
 ## (Optional) Prerequisites / Requirements
 
-Note: For now it only works for Android, so it's required having an Android device.
+Note: For now it only for making outbound calls, both for Android and iOS
 
 * Having a Twilio account.
-* Server with an URL endpoint that returns a JSON with an active [Access Token](https://www.twilio.com/docs/iam/access-tokens)
+* Server with an URL endpoint that returns a JSON with an active [Access Token](https://www.twilio.com/docs/iam/access-tokens). You can setup your own server by downloading one of these:
+
+  * [voice-quickstart-server-java](https://github.com/twilio/voice-quickstart-server-java)
+  * [voice-quickstart-server-node](https://github.com/twilio/voice-quickstart-server-node)
+  * [voice-quickstart-server-php](https://github.com/twilio/voice-quickstart-server-php)
+  * [voice-quickstart-server-python](https://github.com/twilio/voice-quickstart-server-python)
 
 
 ## Installation
@@ -30,10 +35,11 @@ If you want a quickstart, clone the repo, `cd src`, and `npm run demo.android` o
   import { getAccessToken, Twilio } from 'nativescript-twilio';
   import * as dialogs from 'tns-core-modules/ui/dialogs';
 
-  // The following endpoint should return a JSON like this:
-  // {"token": "somevalidtwilioaccesstoken"}
+  // The following endpoint should return the raw token in the request body:
   const accessTokenUrl = 'http://yourserver/path/to/access-token';
   const headers = {'Authorization': 'Token sometoken'};
+
+  const phoneNumber = '+1555365432';
 
   getAccessToken(accessTokenURL, headers)
     .then((token) => { // token is now a valid Twilio Access Token
@@ -44,14 +50,14 @@ If you want a quickstart, clone the repo, `cd src`, and `npm run demo.android` o
           dialogs.alert(`connection failure: ${error}`);
         },
         onConnected (call) {
-          dialogs.alert(`call connected`);
+          dialogs.alert('call connected');
         },
         onDisconnected (call) {
           dialogs.alert('disconnected');
         }
       };
 
-      this.twilio.makeCall(this.phoneNumber, callListener);
+      this.twilio.makeCall(phoneNumber, callListener);
     })
 ```
 

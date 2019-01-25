@@ -7,13 +7,13 @@ export function getAccessToken(url:string, headers: any = {}): Promise<string> {
     fetch(url, {headers})
       .then((response) => {
         if (response.ok) {
-          return response.json()
+          return response.text()
         } else {
           reject(new Error(`Response with status code: ${response.status}`))
         }
       })
       .then((data) => {
-        resolve(data.token);
+        resolve(data);
       })
       .catch((error) => {
         reject(error);

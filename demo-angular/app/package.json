@@ -1,0 +1,9 @@
+{
+    "android": {
+      "v8Flags": "--expose_gc",
+      "requireModules": ["nativescript-twilio"]
+    },
+    "main": "main.js",
+    "name": "tns-template-hello-world",
+    "version": "3.1.0"
+  }

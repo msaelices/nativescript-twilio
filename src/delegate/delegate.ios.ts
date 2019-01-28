@@ -228,7 +228,7 @@ export class TwilioAppDelegate extends UIResponder
     console.log('providerDidDeactivateAudioSession');
   }
 
-	providerExecuteTransaction(provider: CXProvider, transaction: CXTransaction): b {
+	providerExecuteTransaction(provider: CXProvider, transaction: CXTransaction) {
     console.log('providerExecuteTransaction');
     return true;
   }

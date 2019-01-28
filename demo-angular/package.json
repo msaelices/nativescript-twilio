@@ -1,6 +1,6 @@
 {
     "nativescript": {
-        "id": "org.nativescript.demotwilio",
+        "id": "org.nativescript.demotwilioangular",
         "tns-ios": {
             "version": "5.1.0"
         },

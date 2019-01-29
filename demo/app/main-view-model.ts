@@ -9,8 +9,6 @@ declare var android: any;
 
 export class HelloWorldModel extends Observable {
   public message: string;
-  public accessTokenUrl: string = 'https://lin.ngrok.io/accessToken';
-  public authorizationHeader: string = '';
   public senderPhoneNumber: string = '+34606039750';
   // public phoneNumber: string = '+639171137700';
   public phoneNumber: string = '+34605264081';
@@ -37,12 +35,7 @@ export class HelloWorldModel extends Observable {
   }
 
   public onCall(): void {
-    let headers = {};
-    if (this.authorizationHeader) {
-      headers['Authorization'] = this.authorizationHeader;
-    }
-
-    getAccessToken(this.accessTokenUrl, headers)
+    getAccessToken()
       .then((token) => {
         console.log(`Twilio access token: ${token}`);
 

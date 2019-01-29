@@ -1,10 +1,17 @@
 import { Observable } from 'tns-core-modules/data/observable';
-import * as app from 'tns-core-modules/application';
 import { fetch } from 'tns-core-modules/fetch';
 
-export function getAccessToken(url:string, headers: any = {}): Promise<string> {
+let accessTokenUrl:string = undefined;
+let accessTokenHeaders: any = {};
+
+export function setupAccessTokenBackend(url:string, headers: any = {}) {
+  accessTokenUrl = url;
+  accessTokenHeaders = headers;
+}
+
+export function getAccessToken(): Promise<string> {
   return new Promise((resolve, reject) => {
-    fetch(url, {headers})
+    fetch(accessTokenUrl, {headers: accessTokenHeaders})
       .then((response) => {
         if (response.ok) {
           return response.text()

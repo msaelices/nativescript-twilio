@@ -1,3 +1,5 @@
+import { getAccessToken } from '..';
+
 export class TwilioAppDelegate extends UIResponder
   implements UIApplicationDelegate, PKPushRegistryDelegate, TVONotificationDelegate, CXProviderDelegate {
   public static ObjCProtocols = [UIApplicationDelegate, PKPushRegistryDelegate, TVONotificationDelegate, CXProviderDelegate];
@@ -6,6 +8,7 @@ export class TwilioAppDelegate extends UIResponder
   call: TVOCall;
   callKitProvider: CXProvider;
   callKitCallController: CXCallController;
+  deviceTokenString: string;
 
   applicationDidFinishLaunchingWithOptions(
     application: UIApplication,
@@ -136,7 +139,34 @@ export class TwilioAppDelegate extends UIResponder
     pushCredentials: PKPushCredentials,
     type: string
   ) {
-    console.log("PUSHKIT : VOIP_TOKEN : ");
+    console.log(`PUSHKIT : VOIP_TOKEN : ${type}`);
+
+    if (type != PKPushTypeVoIP) {
+        return;
+    }
+
+    getAccessToken()
+      .then((accessToken) => {
+        let deviceToken = (pushCredentials.token as NSData).description
+
+        const callback = (error) => {
+          if (error) {
+            console.error("An error occurred while registering: \(error.localizedDescription)")
+          }
+          else {
+            console.log("Successfully registered for VoIP push notifications.");
+          }
+        };
+
+        TwilioVoice.registerWithAccessTokenDeviceTokenCompletion(accessToken, deviceToken, callback);
+
+        this.deviceTokenString = deviceToken;
+
+      })
+      .catch((error) => {
+        console.error('Error getting access token:', error);
+        return;
+      })
   }
 
   // TVONotificationDelegate interface implementation

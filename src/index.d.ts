@@ -1,8 +1,9 @@
 import { Common } from './twilio.common';
 
-export function getAccessToken(url: string, headers?: any): Promise<string>;
+export function setupAccessTokenBackend(url: string, headers?: any);
+export function getAccessToken(): Promise<string>;
 
 export declare class Twilio extends Common {
   constructor(accessToken: string);
-  makeCall(phoneNumber: any, callListener: any, options?: any): any;
+  makeCall(senderPhoneNumber: any, phoneNumber: any, callListener: any, options?: any): any;
 }

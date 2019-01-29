@@ -50,18 +50,34 @@ tns plugin add nativescript-twilio
 
 ### Integrating into your NativeScript app
 
-```javascript
-  import { getAccessToken, Twilio } from 'nativescript-twilio';
-  import * as dialogs from 'tns-core-modules/ui/dialogs';
+* On the `main.ts` or `app.ts` file, put this code in order to setup Twilio:
 
-  // The following endpoint should return the raw token in the request body:
-  const accessTokenUrl = 'http://yourserver/path/to/access-token';
-  const headers = {'Authorization': 'Token sometoken'};
+```javascript
+
+  import * as application from 'tns-core-modules/application';
+  import { getAccessToken, setupAccessTokenBackend } from 'nativescript-twilio';
+
+  // The following endpoint should return the raw token in the request body
+  const ACCESS_TOKEN_URL = 'http://yourserver/path/to/access-token';
+  const ACCESS_TOKEN_HEADERS = {'Authorization': 'Token sometoken'};
+
+  application.on(application.launchEvent, (args) => {
+    setupAccessTokenBackend(ACCESS_TOKEN_URL, ACCESS_TOKEN_HEADERS);
+  });
+
+```
+
+* On the component for making outbound calls, put the following code:
+
+```javascript
+
+  import * as dialogs from 'tns-core-modules/ui/dialogs';
+  import { getAccessToken, Twilio } from 'nativescript-twilio';
 
   const phoneNumber = '+1555365432';
 
-  getAccessToken(accessTokenURL, headers)
-    .then((token) => { // token is now a valid Twilio Access Token
+  getAccessToken() // it will use the Twilio configuration set before
+    .then((token) => {
       const twilio = new Twilio(token);
 
       const callListener = {
@@ -76,7 +92,7 @@ tns plugin add nativescript-twilio
         }
       };
 
-      this.twilio.makeCall(phoneNumber, callListener);
+      twilio.makeCall(phoneNumber, callListener);
     })
 ```
 

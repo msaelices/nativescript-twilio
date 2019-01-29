@@ -2,16 +2,6 @@
   xmlns:ui="nativescript-twilio">
   <StackLayout class="p-20">
     <StackLayout>
-      <Label text="Access Token URL" />
-      <TextField
-        text="{{ accessTokenUrl }}"
-        hint="URL for getting a Twilio Access Token"
-      />
-      <Label text="Authorization header" />
-      <TextField
-        text="{{ authorizationHeader }}"
-        hint="Token somesecrettoken"
-      />
       <Label text="Sender phone number" />
       <TextField
         text="{{ senderPhoneNumber }}"

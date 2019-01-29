@@ -9,13 +9,11 @@ const ACCESS_TOKEN_HEADERS = {
   // 'Authorization': 'Token sometoken',
 };
 
+setupAccessTokenBackend(ACCESS_TOKEN_URL, ACCESS_TOKEN_HEADERS);
+
 if (application.ios) {
   // register twilio app delegate in order to receive push notifications
   application.ios.delegate = TwilioAppDelegate;
 }
 
 application.start({ moduleName: 'main-page' });
-
-application.on(application.launchEvent, (args) => {
-  setupAccessTokenBackend(ACCESS_TOKEN_URL, ACCESS_TOKEN_HEADERS);
-});

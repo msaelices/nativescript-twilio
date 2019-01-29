@@ -6,6 +6,7 @@ declare var TVOCallDelegate: any;
 declare var TwilioVoice: any;
 
 export const getAccessToken = common.getAccessToken;
+export const setupAccessTokenBackend = common.setupAccessTokenBackend;
 
 class CallDelegate extends NSObject implements TVOCallDelegate {
   static ObjCProtocols = [TVOCallDelegate];

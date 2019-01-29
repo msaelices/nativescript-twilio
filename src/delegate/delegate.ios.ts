@@ -2,7 +2,7 @@ import { getAccessToken } from '..';
 
 export class TwilioAppDelegate extends UIResponder
   implements UIApplicationDelegate, PKPushRegistryDelegate, TVONotificationDelegate, CXProviderDelegate {
-  public static ObjCProtocols = [UIApplicationDelegate, PKPushRegistryDelegate, TVONotificationDelegate, CXProviderDelegate];
+  public static ObjCProtocols = [UIApplicationDelegate, PKPushRegistryDelegate, TVONotificationDelegate, TVOCallDelegate, CXProviderDelegate];
 
   callInvite: TVOCallInvite;
   call: TVOCall;
@@ -10,6 +10,7 @@ export class TwilioAppDelegate extends UIResponder
   callKitCallController: CXCallController;
   deviceTokenString: string;
   incomingPushCompletionCallback: () => void;
+  callKitCompletionCallback: () => void;
 
   applicationDidFinishLaunchingWithOptions(
     application: UIApplication,
@@ -61,6 +62,7 @@ export class TwilioAppDelegate extends UIResponder
   ) {
     let token = deviceToken.toString().replace(/[<\s>]/g, "");
   }
+
   applicationDidFailToRegisterForRemoteNotificationsWithError(
     application: UIApplication,
     error: NSError
@@ -206,7 +208,7 @@ export class TwilioAppDelegate extends UIResponder
         return;
     }
 
-    this.callInvite = callInvite
+    this.callInvite = callInvite;
 
     this.reportIncomingCall("Voice Bot", callInvite.uuid);
   }
@@ -273,11 +275,23 @@ export class TwilioAppDelegate extends UIResponder
 
 	providerExecuteTransaction(provider: CXProvider, transaction: CXTransaction) {
     console.log('providerExecuteTransaction');
-    return true;
+    return false;
   }
 
 	providerPerformAnswerCallAction(provider: CXProvider, action: CXAnswerCallAction) {
     console.log('providerPerformAnswerCallAction');
+    TwilioVoice.audioEnabled = false;
+    const callback = (success) => {
+        if (success) {
+            action.fulfill()
+        } else {
+            action.fail()
+        }
+    };
+
+    this.performAnswerVoiceCall(action.callUUID, callback);
+
+    action.fulfill();
   }
 
 	providerPerformEndCallAction(provider: CXProvider, action: CXEndCallAction) {
@@ -308,4 +322,25 @@ export class TwilioAppDelegate extends UIResponder
     console.log('providerTimedOutPerformingAction');
   }
   // End of CXProviderDelegate interface implementation
+
+  performAnswerVoiceCall(uuid, completionHandler) {
+    let call = this.callInvite.acceptWithDelegate(this);
+    this.callInvite = null;
+    this.callKitCompletionCallback = completionHandler;
+    this.incomingPushHandled();
+  }
+
+  // TVOCallDelegate interface implementation
+  callDidConnect(call: TVOCall) {
+    console.log("callDidConnect");
+  }
+
+  callDidDisconnectWithError(call: TVOCall, error: NSError) {
+    console.log("callDidDisconnectWithError");
+  }
+
+  callDidFailToConnectWithError(call: TVOCall, error: NSError) {
+    console.log("callDidFailToConnectWithError");
+  }
+  // End of TVOCallDelegate interface implementation
 }

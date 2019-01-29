@@ -7,6 +7,7 @@ declare var java: any;
 const context = utilsAd.getApplicationContext();
 
 export const getAccessToken = common.getAccessToken;
+export const setupAccessTokenBackend = common.setupAccessTokenBackend;
 
 export class Twilio extends common.Common {
 

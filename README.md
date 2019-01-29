@@ -61,10 +61,7 @@ tns plugin add nativescript-twilio
   const ACCESS_TOKEN_URL = 'http://yourserver/path/to/access-token';
   const ACCESS_TOKEN_HEADERS = {'Authorization': 'Token sometoken'};
 
-  application.on(application.launchEvent, (args) => {
-    setupAccessTokenBackend(ACCESS_TOKEN_URL, ACCESS_TOKEN_HEADERS);
-  });
-
+  setupAccessTokenBackend(ACCESS_TOKEN_URL, ACCESS_TOKEN_HEADERS);
 ```
 
 * On the component for making outbound calls, put the following code:

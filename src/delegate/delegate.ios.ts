@@ -9,6 +9,7 @@ export class TwilioAppDelegate extends UIResponder
   callKitProvider: CXProvider;
   callKitCallController: CXCallController;
   deviceTokenString: string;
+  incomingPushCompletionCallback: () => void;
 
   applicationDidFinishLaunchingWithOptions(
     application: UIApplication,
@@ -127,11 +128,16 @@ export class TwilioAppDelegate extends UIResponder
     let application = UIApplication.sharedApplication;
 
     console.log(
-      "PUSHKIT : INCOMING VOIP NOTIFICATION :",
+      "PUSHKIT : INCOMING VOIP NOTIFICATION WITH COMPLETION:",
       payload.dictionaryPayload.description
     );
 
-    if (completion) completion();
+    // Save for later when the notification is properly handled.
+    this.incomingPushCompletionCallback = completion;
+
+    if (type == PKPushTypeVoIP) {
+        TwilioVoice.handleNotificationDelegate(payload.dictionaryPayload, this);
+    }
   }
 
   pushRegistryDidUpdatePushCredentialsForType(
@@ -174,9 +180,9 @@ export class TwilioAppDelegate extends UIResponder
     console.log("callInviteReceived");
 
     if (callInvite.state === TVOCallInviteState.Pending) {
-      // handleCallInviteReceived(callInvite)
+      this.handleCallInviteReceived(callInvite)
     } else if (callInvite.state == TVOCallInviteState.Canceled) {
-      // handleCallInviteCanceled(callInvite)
+      this.handleCallInviteCanceled(callInvite)
     }
   }
 
@@ -191,12 +197,12 @@ export class TwilioAppDelegate extends UIResponder
     if (this.callInvite && this.callInvite.state == TVOCallInviteState.Pending) {
         console.log("Already a pending incoming call invite.");
         console.log("  >> Ignoring call from %@", callInvite.from);
-        // this.incomingPushHandled()
+        this.incomingPushHandled()
         return;
     } else if (this.call) {
         console.log("Already an active call.");
         console.log("  >> Ignoring call from %@", callInvite.from);
-        // this.incomingPushHandled()
+        this.incomingPushHandled()
         return;
     }
 
@@ -209,7 +215,14 @@ export class TwilioAppDelegate extends UIResponder
     console.log("callInviteCanceled");
     // performEndCallAction(callInvite.uuid);
     this.callInvite = null;
-    // this.incomingPushHandled()
+    this.incomingPushHandled()
+  }
+
+  incomingPushHandled() {
+      if (this.incomingPushCompletionCallback) {
+          this.incomingPushCompletionCallback();
+          this.incomingPushCompletionCallback = null;
+      }
   }
 
   reportIncomingCall(from: String, uuid: any) {

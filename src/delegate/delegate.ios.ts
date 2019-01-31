@@ -35,9 +35,9 @@ export class TwilioAppDelegate extends UIResponder
     console.log(PKPushTypeVoIP);
 
     // register push kip
-    let pushkitVOIP = PKPushRegistry.alloc().initWithQueue(null);
-    pushkitVOIP.delegate = this;
-    pushkitVOIP.desiredPushTypes = NSSet.setWithObject(PKPushTypeVoIP);
+    let voipRegistry = PKPushRegistry.alloc().initWithQueue(null);
+    voipRegistry.delegate = this;
+    voipRegistry.desiredPushTypes = NSSet.setWithObject(PKPushTypeVoIP);
 
     let configuration = CXProviderConfiguration.alloc().initWithLocalizedName("CallKit {N} Quickstart");
     configuration.maximumCallGroups = 1
@@ -264,6 +264,7 @@ export class TwilioAppDelegate extends UIResponder
 
 	providerDidActivateAudioSession(provider: CXProvider, audioSession: AVAudioSession) {
     console.log('providerDidActivateAudioSession');
+    TwilioVoice.audioEnabled = true;
   }
 
 	providerDidBegin(provider: CXProvider) {

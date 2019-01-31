@@ -1,7 +1,7 @@
 import { getAccessToken } from '..';
 
 export class TwilioAppDelegate extends UIResponder
-  implements UIApplicationDelegate, PKPushRegistryDelegate, TVONotificationDelegate, CXProviderDelegate {
+  implements UIApplicationDelegate, PKPushRegistryDelegate, TVONotificationDelegate, TVOCallDelegate, CXProviderDelegate {
   public static ObjCProtocols = [UIApplicationDelegate, PKPushRegistryDelegate, TVONotificationDelegate, TVOCallDelegate, CXProviderDelegate];
 
   callInvite: TVOCallInvite;
@@ -39,7 +39,7 @@ export class TwilioAppDelegate extends UIResponder
     pushkitVOIP.delegate = this;
     pushkitVOIP.desiredPushTypes = NSSet.setWithObject(PKPushTypeVoIP);
 
-    let configuration = CXProviderConfiguration.alloc().initWithLocalizedName("CallKit Quickstart");
+    let configuration = CXProviderConfiguration.alloc().initWithLocalizedName("CallKit {N} Quickstart");
     configuration.maximumCallGroups = 1
     configuration.maximumCallsPerCallGroup = 1
 
@@ -247,6 +247,7 @@ export class TwilioAppDelegate extends UIResponder
           console.log(`Failed to report incoming call successfully: ${error.localizedDescription}`);
           return
       }
+      TwilioVoice.logLevel = TVOLogLevel.Verbose;
       console.log("Incoming call successfully reported.");
       // RCP: Workaround per https://forums.developer.apple.com/message/169511
       TwilioVoice.configureAudioSession();

@@ -7,6 +7,7 @@ let accessTokenHeaders: any = {};
 export function setupAccessTokenBackend(url:string, headers: any = {}) {
   accessTokenUrl = url;
   accessTokenHeaders = headers;
+  TwilioVoice.logLevel = TVOLogLevel.Verbose;
 }
 
 export function getAccessToken(): Promise<string> {

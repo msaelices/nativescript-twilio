@@ -56,12 +56,18 @@ tns plugin add nativescript-twilio
 
   import * as application from 'tns-core-modules/application';
   import { initTwilio } from 'nativescript-twilio';
+  import { TwilioAppDelegate } from 'nativescript-twilio/delegate';
 
   // The following endpoint should return the raw token in the request body
   const accessTokenUrl = 'http://yourserver/path/to/access-token';
   const accessTokenHeaders = {'Authorization': 'Token sometoken'};
 
   initTwilio(accessTokenUrl, accessTokenHeaders);
+
+  if (application.ios) {
+    // register twilio app delegate in order to receive push notifications
+    application.ios.delegate = TwilioAppDelegate;
+  }
 ```
 
 * In some place in your code (i.e. in some UI component `loaded` event) you need to setUp the call listener, which will handle the call's connection events:

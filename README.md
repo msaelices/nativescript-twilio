@@ -65,7 +65,7 @@ tns plugin add nativescript-twilio
   initTwilio(accessTokenUrl, accessTokenHeaders);
 
   if (application.ios) {
-    // register twilio app delegate in order to receive push notifications
+    // register twilio app delegate in order to receive incoming calls
     application.ios.delegate = TwilioAppDelegate;
   }
 ```

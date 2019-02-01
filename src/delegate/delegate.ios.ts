@@ -1,8 +1,27 @@
-import { getAccessToken } from '..';
+import * as common from '../twilio.common';
+
+export class CallDelegate extends NSObject implements TVOCallDelegate {
+  static ObjCProtocols = [TVOCallDelegate];
+
+  callDidConnect(call: TVOCall) {
+    console.debug("callDidConnect");
+    common.callListener.onConnected(call);
+  }
+
+  callDidDisconnectWithError(call: TVOCall, error: NSError) {
+    console.debug("callDidDisconnectWithError");
+    common.callListener.onDisconnected(call);
+  }
+
+  callDidFailToConnectWithError(call: TVOCall, error: NSError) {
+    console.debug("callDidFailToConnectWithError");
+    common.callListener.onConnectFailure(call, error);
+  }
+}
 
 export class TwilioAppDelegate extends UIResponder
-  implements UIApplicationDelegate, PKPushRegistryDelegate, TVONotificationDelegate, TVOCallDelegate, CXProviderDelegate {
-  public static ObjCProtocols = [UIApplicationDelegate, PKPushRegistryDelegate, TVONotificationDelegate, TVOCallDelegate, CXProviderDelegate];
+  implements UIApplicationDelegate, PKPushRegistryDelegate, TVONotificationDelegate, CXProviderDelegate {
+  public static ObjCProtocols = [UIApplicationDelegate, PKPushRegistryDelegate, TVONotificationDelegate, CXProviderDelegate];
 
   callInvite: TVOCallInvite;
   call: TVOCall;
@@ -138,7 +157,7 @@ export class TwilioAppDelegate extends UIResponder
     this.incomingPushCompletionCallback = completion;
 
     if (type == PKPushTypeVoIP) {
-        TwilioVoice.handleNotificationDelegate(payload.dictionaryPayload, this);
+      TwilioVoice.handleNotificationDelegate(payload.dictionaryPayload, this);
     }
   }
 
@@ -153,7 +172,7 @@ export class TwilioAppDelegate extends UIResponder
         return;
     }
 
-    getAccessToken()
+    common.getAccessToken()
       .then((accessToken) => {
         let deviceToken = (pushCredentials.token as NSData).description
 
@@ -327,23 +346,11 @@ export class TwilioAppDelegate extends UIResponder
   // End of CXProviderDelegate interface implementation
 
   performAnswerVoiceCall(uuid, completionHandler) {
-    let call = this.callInvite.acceptWithDelegate(this);
+    console.debug('performAnswerVoiceCall');
+    const callDelegate = new CallDelegate();
+    let call = this.callInvite.acceptWithDelegate(callDelegate);
     this.callInvite = null;
     this.callKitCompletionCallback = completionHandler;
     this.incomingPushHandled();
   }
-
-  // TVOCallDelegate interface implementation
-  callDidConnect(call: TVOCall) {
-    console.debug("callDidConnect");
-  }
-
-  callDidDisconnectWithError(call: TVOCall, error: NSError) {
-    console.debug("callDidDisconnectWithError");
-  }
-
-  callDidFailToConnectWithError(call: TVOCall, error: NSError) {
-    console.debug("callDidFailToConnectWithError");
-  }
-  // End of TVOCallDelegate interface implementation
 }

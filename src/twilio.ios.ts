@@ -1,4 +1,5 @@
 import * as common from "./twilio.common";
+import { CallDelegate } from "./delegate";
 
 declare var NSDictionary: any;
 declare var NSError: any;
@@ -9,36 +10,9 @@ export const getAccessToken = common.getAccessToken;
 export const initTwilio = common.initTwilio;
 export const setupCallListener = common.setupCallListener;
 
-class CallDelegate extends NSObject implements TVOCallDelegate {
-  static ObjCProtocols = [TVOCallDelegate];
-  listener: any;
-
-  public static initWithListener(listener: any): CallDelegate {
-    let callDelegate = new CallDelegate();
-    callDelegate.listener = listener;
-
-    return callDelegate;
-  }
-
-  callDidConnect(call: TVOCall) {
-    console.log("callDidConnect");
-    this.listener.onConnected(call);
-  }
-
-  callDidDisconnectWithError(call: TVOCall, error: NSError) {
-    console.log("callDidDisconnectWithError");
-    this.listener.onDisconnected(call);
-  }
-
-  callDidFailToConnectWithError(call: TVOCall, error: NSError) {
-    console.log("callDidFailToConnectWithError");
-    this.listener.onConnectFailure(call, error);
-  }
-}
-
 export class Twilio extends common.Common {
   public makeCall(senderPhoneNumber, phoneNumber, options: any = {}): any {
-    const callDelegate = CallDelegate.initWithListener(common.callListener);
+    const callDelegate = new CallDelegate();
 
     options.From = senderPhoneNumber;
     options.To = phoneNumber;

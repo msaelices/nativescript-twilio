@@ -16,7 +16,7 @@ export class TwilioAppDelegate extends UIResponder
     application: UIApplication,
     launchOptions
   ): boolean {
-    console.log("applicationWillFinishLaunchingWithOptions: ", this);
+    console.debug("applicationWillFinishLaunchingWithOptions: ", this);
 
     let center = UNUserNotificationCenter.currentNotificationCenter();
 
@@ -25,14 +25,14 @@ export class TwilioAppDelegate extends UIResponder
         UNAuthorizationOptions.Sound |
         UNAuthorizationOptions.Badge,
       (granted, error) => {
-        console.log(
+        console.debug(
           `requestAuthorizationWithOptionsCompletionHandler: ${granted}`
         );
-        console.log(error);
+        console.debug(error);
       }
     );
     application.registerForRemoteNotifications();
-    console.log(PKPushTypeVoIP);
+    console.debug(PKPushTypeVoIP);
 
     // register push kip
     let voipRegistry = PKPushRegistry.alloc().initWithQueue(null);
@@ -51,9 +51,9 @@ export class TwilioAppDelegate extends UIResponder
   }
 
   applicationDidBecomeActive(application: UIApplication): void {
-    console.log(`applicationDidBecomeActive:  ${application}`);
+    console.debug(`applicationDidBecomeActive:  ${application}`);
 
-    console.log("is registered", application.registeredForRemoteNotifications);
+    console.debug("is registered", application.registeredForRemoteNotifications);
   }
 
   applicationDidRegisterForRemoteNotificationsWithDeviceToken(
@@ -74,7 +74,7 @@ export class TwilioAppDelegate extends UIResponder
     application: UIApplication,
     userInfo: NSDictionary<any, any>
   ) {
-    console.log(
+    console.debug(
       "applicationDidReceiveRemoteNotification:" + JSON.stringify(userInfo)
     );
   }
@@ -84,7 +84,7 @@ export class TwilioAppDelegate extends UIResponder
     userInfo: NSDictionary<any, any>,
     completionHandler: any
   ) {
-    console.log(
+    console.debug(
       "applicationDidReceiveRemoteNotificationFetchCompletionHandler:" +
         JSON.stringify(userInfo)
     );
@@ -93,10 +93,10 @@ export class TwilioAppDelegate extends UIResponder
   }
 
   applicationDidEnterBackground(application: UIApplication) {
-    console.log("APP_ENTER_IN_BACKGROUND");
+    console.debug("APP_ENTER_IN_BACKGROUND");
   }
   applicationWillEnterForeground(application: UIApplication) {
-    console.log("APP_ENTER_IN_FOREGROUND");
+    console.debug("APP_ENTER_IN_FOREGROUND");
   }
 
   applicationWillTerminate(application: UIApplication) {}
@@ -105,7 +105,7 @@ export class TwilioAppDelegate extends UIResponder
     registry: PKPushRegistry,
     type: string
   ) {
-    console.log("PUSHKIT : INVALID_PUSHKIT_TOKEN");
+    console.debug("PUSHKIT : INVALID_PUSHKIT_TOKEN");
   }
 
   pushRegistryDidReceiveIncomingPushWithPayloadForType(
@@ -115,7 +115,7 @@ export class TwilioAppDelegate extends UIResponder
   ) {
     let application = UIApplication.sharedApplication;
 
-    console.log(
+    console.debug(
       "PUSHKIT : INCOMING VOIP NOTIFICATION :",
       payload.dictionaryPayload.description
     );
@@ -129,7 +129,7 @@ export class TwilioAppDelegate extends UIResponder
   ) {
     let application = UIApplication.sharedApplication;
 
-    console.log(
+    console.debug(
       "PUSHKIT : INCOMING VOIP NOTIFICATION WITH COMPLETION:",
       payload.dictionaryPayload.description
     );
@@ -147,7 +147,7 @@ export class TwilioAppDelegate extends UIResponder
     pushCredentials: PKPushCredentials,
     type: string
   ) {
-    console.log(`PUSHKIT : VOIP_TOKEN : ${type}`);
+    console.debug(`PUSHKIT : VOIP_TOKEN : ${type}`);
 
     if (type != PKPushTypeVoIP) {
         return;
@@ -162,7 +162,7 @@ export class TwilioAppDelegate extends UIResponder
             console.error("An error occurred while registering: \(error.localizedDescription)")
           }
           else {
-            console.log("Successfully registered for VoIP push notifications.");
+            console.debug("Successfully registered for VoIP push notifications.");
           }
         };
 
@@ -179,7 +179,7 @@ export class TwilioAppDelegate extends UIResponder
 
   // TVONotificationDelegate interface implementation
   callInviteReceived(callInvite: TVOCallInvite) {
-    console.log("callInviteReceived");
+    console.debug("callInviteReceived");
 
     if (callInvite.state === TVOCallInviteState.Pending) {
       this.handleCallInviteReceived(callInvite)
@@ -189,21 +189,21 @@ export class TwilioAppDelegate extends UIResponder
   }
 
   notificationError(error: NSError) {
-    console.log("notificationError: ", error.localizedDescription);
+    console.debug("notificationError: ", error.localizedDescription);
   }
   // End of TVONotificationDelegate interface implementation
 
   handleCallInviteReceived(callInvite: TVOCallInvite) {
-    console.log("handleCallInviteReceived");
+    console.debug("handleCallInviteReceived");
 
     if (this.callInvite && this.callInvite.state == TVOCallInviteState.Pending) {
-        console.log("Already a pending incoming call invite.");
-        console.log("  >> Ignoring call from %@", callInvite.from);
+        console.debug("Already a pending incoming call invite.");
+        console.debug("  >> Ignoring call from %@", callInvite.from);
         this.incomingPushHandled()
         return;
     } else if (this.call) {
-        console.log("Already an active call.");
-        console.log("  >> Ignoring call from %@", callInvite.from);
+        console.debug("Already an active call.");
+        console.debug("  >> Ignoring call from %@", callInvite.from);
         this.incomingPushHandled()
         return;
     }
@@ -214,7 +214,7 @@ export class TwilioAppDelegate extends UIResponder
   }
 
   handleCallInviteCanceled(callInvite: TVOCallInvite) {
-    console.log("callInviteCanceled");
+    console.debug("callInviteCanceled");
     // performEndCallAction(callInvite.uuid);
     this.callInvite = null;
     this.incomingPushHandled()
@@ -244,11 +244,11 @@ export class TwilioAppDelegate extends UIResponder
 
     let callback = (error: NSError) => {
       if (error) {
-          console.log(`Failed to report incoming call successfully: ${error.localizedDescription}`);
+          console.debug(`Failed to report incoming call successfully: ${error.localizedDescription}`);
           return
       }
       TwilioVoice.logLevel = TVOLogLevel.Verbose;
-      console.log("Incoming call successfully reported.");
+      console.debug("Incoming call successfully reported.");
       // RCP: Workaround per https://forums.developer.apple.com/message/169511
       TwilioVoice.configureAudioSession();
     }
@@ -258,30 +258,30 @@ export class TwilioAppDelegate extends UIResponder
 
   // CXProviderDelegate interface implementation
   providerDidReset(provider: CXProvider) {
-    console.log('providerDidReset');
+    console.debug('providerDidReset');
     TwilioVoice.audioEnabled = true;
   }
 
 	providerDidActivateAudioSession(provider: CXProvider, audioSession: AVAudioSession) {
-    console.log('providerDidActivateAudioSession');
+    console.debug('providerDidActivateAudioSession');
     TwilioVoice.audioEnabled = true;
   }
 
 	providerDidBegin(provider: CXProvider) {
-    console.log('providerDidBegin');
+    console.debug('providerDidBegin');
   }
 
 	providerDidDeactivateAudioSession(provider: CXProvider, audioSession: AVAudioSession) {
-    console.log('providerDidDeactivateAudioSession');
+    console.debug('providerDidDeactivateAudioSession');
   }
 
 	providerExecuteTransaction(provider: CXProvider, transaction: CXTransaction) {
-    console.log('providerExecuteTransaction');
+    console.debug('providerExecuteTransaction');
     return false;
   }
 
 	providerPerformAnswerCallAction(provider: CXProvider, action: CXAnswerCallAction) {
-    console.log('providerPerformAnswerCallAction');
+    console.debug('providerPerformAnswerCallAction');
 
     TwilioVoice.audioEnabled = false;
     const callback = (success) => {
@@ -298,31 +298,31 @@ export class TwilioAppDelegate extends UIResponder
   }
 
 	providerPerformEndCallAction(provider: CXProvider, action: CXEndCallAction) {
-    console.log('providerPerformEndCallAction');
+    console.debug('providerPerformEndCallAction');
   }
 
 	providerPerformPlayDTMFCallAction(provider: CXProvider, action: CXPlayDTMFCallAction) {
-    console.log('providerPerformPlayDTMFCallAction');
+    console.debug('providerPerformPlayDTMFCallAction');
   }
 
 	providerPerformSetGroupCallAction(provider: CXProvider, action: CXSetGroupCallAction) {
-    console.log('providerPerformSetGroupCallAction');
+    console.debug('providerPerformSetGroupCallAction');
   }
 
 	providerPerformSetHeldCallAction(provider: CXProvider, action: CXSetHeldCallAction) {
-    console.log('providerPerformSetHeldCallAction');
+    console.debug('providerPerformSetHeldCallAction');
   }
 
 	providerPerformSetMutedCallAction(provider: CXProvider, action: CXSetMutedCallAction) {
-    console.log('providerPerformSetMutedCallAction');
+    console.debug('providerPerformSetMutedCallAction');
   }
 
 	providerPerformStartCallAction(provider: CXProvider, action: CXStartCallAction) {
-    console.log('providerPerformStartCallAction');
+    console.debug('providerPerformStartCallAction');
   }
 
 	providerTimedOutPerformingAction(provider: CXProvider, action: CXAction) {
-    console.log('providerTimedOutPerformingAction');
+    console.debug('providerTimedOutPerformingAction');
   }
   // End of CXProviderDelegate interface implementation
 
@@ -335,15 +335,15 @@ export class TwilioAppDelegate extends UIResponder
 
   // TVOCallDelegate interface implementation
   callDidConnect(call: TVOCall) {
-    console.log("callDidConnect");
+    console.debug("callDidConnect");
   }
 
   callDidDisconnectWithError(call: TVOCall, error: NSError) {
-    console.log("callDidDisconnectWithError");
+    console.debug("callDidDisconnectWithError");
   }
 
   callDidFailToConnectWithError(call: TVOCall, error: NSError) {
-    console.log("callDidFailToConnectWithError");
+    console.debug("callDidFailToConnectWithError");
   }
   // End of TVOCallDelegate interface implementation
 }

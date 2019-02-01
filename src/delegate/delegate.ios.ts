@@ -210,7 +210,7 @@ export class TwilioAppDelegate extends UIResponder
 
     this.callInvite = callInvite;
 
-    this.reportIncomingCall("Voice Bot", callInvite.uuid);
+    this.reportIncomingCall("{N} Voice Bot", callInvite.uuid);
   }
 
   handleCallInviteCanceled(callInvite: TVOCallInvite) {
@@ -282,6 +282,7 @@ export class TwilioAppDelegate extends UIResponder
 
 	providerPerformAnswerCallAction(provider: CXProvider, action: CXAnswerCallAction) {
     console.log('providerPerformAnswerCallAction');
+
     TwilioVoice.audioEnabled = false;
     const callback = (success) => {
         if (success) {

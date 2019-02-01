@@ -50,18 +50,38 @@ tns plugin add nativescript-twilio
 
 ### Integrating into your NativeScript app
 
-* On the `main.ts` or `app.ts` file, put this code in order to setup Twilio:
+* On the `main.ts` or `app.ts` file, put this code in order to init Twilio:
 
 ```javascript
 
   import * as application from 'tns-core-modules/application';
-  import { getAccessToken, setupAccessTokenBackend } from 'nativescript-twilio';
+  import { initTwilio } from 'nativescript-twilio';
 
   // The following endpoint should return the raw token in the request body
-  const ACCESS_TOKEN_URL = 'http://yourserver/path/to/access-token';
-  const ACCESS_TOKEN_HEADERS = {'Authorization': 'Token sometoken'};
+  const accessTokenUrl = 'http://yourserver/path/to/access-token';
+  const accessTokenHeaders = {'Authorization': 'Token sometoken'};
 
-  setupAccessTokenBackend(ACCESS_TOKEN_URL, ACCESS_TOKEN_HEADERS);
+  initTwilio(accessTokenUrl, accessTokenHeaders);
+```
+
+* In some place in your code (i.e. in some UI component `loaded` event) you need to setUp the call listener, which will handle the call's connection events:
+
+```javascript
+  import { setupCallListener } from 'nativescript-twilio';
+
+  const callListener = {
+    onConnectFailure(call, error) {
+      dialogs.alert(`connection failure: ${error}`);
+    },
+    onConnected (call) {
+      dialogs.alert('call connected');
+    },
+    onDisconnected (call) {
+      dialogs.alert('disconnected');
+    }
+  };
+
+  setupCallListener(callListener);
 ```
 
 * On the component for making outbound calls, put the following code:
@@ -77,19 +97,7 @@ tns plugin add nativescript-twilio
     .then((token) => {
       const twilio = new Twilio(token);
 
-      const callListener = {
-        onConnectFailure(call, error) {
-          dialogs.alert(`connection failure: ${error}`);
-        },
-        onConnected (call) {
-          dialogs.alert('call connected');
-        },
-        onDisconnected (call) {
-          dialogs.alert('disconnected');
-        }
-      };
-
-      twilio.makeCall(phoneNumber, callListener);
+      twilio.makeCall(phoneNumber);
     })
 ```
 

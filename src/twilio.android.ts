@@ -7,7 +7,8 @@ declare var java: any;
 const context = utilsAd.getApplicationContext();
 
 export const getAccessToken = common.getAccessToken;
-export const setupAccessTokenBackend = common.setupAccessTokenBackend;
+export const initTwilio = common.initTwilio;
+export const setupCallListener = common.setupCallListener;
 
 export class Twilio extends common.Common {
 
@@ -15,7 +16,7 @@ export class Twilio extends common.Common {
     super(accessToken);
   }
 
-  public makeCall(senderPhoneNumber, phoneNumber, callListener, options: any = {}): any {
+  public makeCall(senderPhoneNumber, phoneNumber, options: any = {}): any {
     let optionsMap = new java.util.HashMap();
 
     optionsMap.put('From', senderPhoneNumber);
@@ -26,7 +27,7 @@ export class Twilio extends common.Common {
       optionsMap.put(key, options[key]);
     })
 
-    const listener = new com.twilio.voice.Call.Listener(callListener)
+    const listener = new com.twilio.voice.Call.Listener(common.callListener)
 
     return com.twilio.voice.Voice.call(
       context,

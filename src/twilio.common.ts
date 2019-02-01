@@ -3,11 +3,16 @@ import { fetch } from 'tns-core-modules/fetch';
 
 let accessTokenUrl:string = undefined;
 let accessTokenHeaders: any = {};
+export let callListener: any = undefined;
 
-export function setupAccessTokenBackend(url:string, headers: any = {}) {
+export function initTwilio(url:string, headers: any = {}) {
   accessTokenUrl = url;
   accessTokenHeaders = headers;
   TwilioVoice.logLevel = TVOLogLevel.Verbose;
+}
+
+export function setupCallListener(listener: any) {
+  callListener = listener;
 }
 
 export function getAccessToken(): Promise<string> {
@@ -38,5 +43,5 @@ export abstract class Common extends Observable {
     this.accessToken = accessToken;
   }
 
-  public abstract makeCall(senderPhoneNumber, phoneNumber, callListener, options): any;
+  public abstract makeCall(senderPhoneNumber, phoneNumber, options): any;
 }

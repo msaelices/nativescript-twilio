@@ -7,7 +7,7 @@ import { initTwilio } from "nativescript-twilio";
 import { TwilioAppDelegate } from "nativescript-twilio/delegate";
 
 // Please fill these values
-const accessTokenURL: string = "https://lin.ngrok.io/accessToken?identity=alice";
+const accessTokenURL: string = "";
 const authorizationHeader: any = {
   // 'Authorization': 'Token sometoken',
 };

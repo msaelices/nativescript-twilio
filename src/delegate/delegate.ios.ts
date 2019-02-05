@@ -80,6 +80,7 @@ export class TwilioAppDelegate extends UIResponder
     deviceToken: NSData
   ) {
     let token = deviceToken.toString().replace(/[<\s>]/g, "");
+    console.debug(`applicationDidRegisterForRemoteNotificationsWithDeviceToken with device token ${token}`);
   }
 
   applicationDidFailToRegisterForRemoteNotificationsWithError(
@@ -124,7 +125,7 @@ export class TwilioAppDelegate extends UIResponder
     registry: PKPushRegistry,
     type: string
   ) {
-    console.debug("PUSHKIT : INVALID_PUSHKIT_TOKEN");
+    console.error("PUSHKIT : INVALID_PUSHKIT_TOKEN");
   }
 
   pushRegistryDidReceiveIncomingPushWithPayloadForType(
@@ -181,7 +182,7 @@ export class TwilioAppDelegate extends UIResponder
             console.error("An error occurred while registering: \(error.localizedDescription)")
           }
           else {
-            console.debug("Successfully registered for VoIP push notifications.");
+            console.debug(`Successfully registered for VoIP push notifications with deviceToken ${deviceToken}`);
           }
         };
 
@@ -208,7 +209,7 @@ export class TwilioAppDelegate extends UIResponder
   }
 
   notificationError(error: NSError) {
-    console.debug("notificationError: ", error.localizedDescription);
+    console.error("notificationError: ", error.localizedDescription);
   }
   // End of TVONotificationDelegate interface implementation
 
@@ -263,7 +264,7 @@ export class TwilioAppDelegate extends UIResponder
 
     let callback = (error: NSError) => {
       if (error) {
-          console.debug(`Failed to report incoming call successfully: ${error.localizedDescription}`);
+          console.error(`Failed to report incoming call successfully: ${error.localizedDescription}`);
           return
       }
       TwilioVoice.logLevel = TVOLogLevel.Verbose;

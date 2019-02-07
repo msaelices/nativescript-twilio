@@ -317,31 +317,31 @@ export class TwilioAppDelegate extends UIResponder
     action.fulfill();
   }
 
-	providerPerformEndCallAction(provider: CXProvider, action: CXEndCallAction) {
+  providerPerformEndCallAction(provider: CXProvider, action: CXEndCallAction) {
     console.debug('providerPerformEndCallAction');
   }
 
-	providerPerformPlayDTMFCallAction(provider: CXProvider, action: CXPlayDTMFCallAction) {
+  providerPerformPlayDTMFCallAction(provider: CXProvider, action: CXPlayDTMFCallAction) {
     console.debug('providerPerformPlayDTMFCallAction');
   }
 
-	providerPerformSetGroupCallAction(provider: CXProvider, action: CXSetGroupCallAction) {
+  providerPerformSetGroupCallAction(provider: CXProvider, action: CXSetGroupCallAction) {
     console.debug('providerPerformSetGroupCallAction');
   }
 
-	providerPerformSetHeldCallAction(provider: CXProvider, action: CXSetHeldCallAction) {
+  providerPerformSetHeldCallAction(provider: CXProvider, action: CXSetHeldCallAction) {
     console.debug('providerPerformSetHeldCallAction');
   }
 
-	providerPerformSetMutedCallAction(provider: CXProvider, action: CXSetMutedCallAction) {
+  providerPerformSetMutedCallAction(provider: CXProvider, action: CXSetMutedCallAction) {
     console.debug('providerPerformSetMutedCallAction');
   }
 
-	providerPerformStartCallAction(provider: CXProvider, action: CXStartCallAction) {
+  providerPerformStartCallAction(provider: CXProvider, action: CXStartCallAction) {
     console.debug('providerPerformStartCallAction');
   }
 
-	providerTimedOutPerformingAction(provider: CXProvider, action: CXAction) {
+  providerTimedOutPerformingAction(provider: CXProvider, action: CXAction) {
     console.debug('providerTimedOutPerformingAction');
   }
   // End of CXProviderDelegate interface implementation

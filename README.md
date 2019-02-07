@@ -38,7 +38,7 @@ tns plugin add nativescript-twilio
 
   * On iOS:
 
-    1. [Create VoIP Service Certificate](https://github.com/twilio/voice-quickstart-swift#7-create-voip-service-certificate), with the application ID `org.nativescript.demotwilio`
+    1. [Create VoIP Service Certificate](https://github.com/twilio/voice-quickstart-swift#7-create-voip-service-certificate), with the application ID `org.nativescript.demotwilio`. Don't forget to configure Push Notifications after create the App by editing it in the Apple Provisioning Portal.
     2. [Create a Push Credential with your VoIP Service Certificate](https://github.com/twilio/voice-quickstart-swift#8-create-a-push-credential-with-your-voip-service-certificate)
     3. [Configure Xcode project settings for push notifications](https://github.com/twilio/voice-quickstart-swift#9-configure-xcode-project-settings-for-push-notifications)
     4. Receive an incoming call

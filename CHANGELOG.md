@@ -1,3 +1,12 @@
+<a name="0.6.0"></a>
+# 0.6.0 (2019-02-13)
+
+
+### Features
+
+* Implemented setting the audio session output to a speaker (only for iOS yet). ([6abe58c](https://github.com/msaelices/nativescript-twilio/commit/6abe58c))
+
+
 <a name="0.5.0"></a>
 # 0.5.0 (2019-02-13)
 

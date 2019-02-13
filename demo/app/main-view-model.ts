@@ -64,7 +64,12 @@ export class HelloWorldModel extends Observable {
         }
 
         console.log('Calling to ', this.phoneNumber);
-        this.twilio.makeCall(this.senderPhoneNumber, this.phoneNumber, options);
+        let call = this.twilio.makeCall(this.senderPhoneNumber, this.phoneNumber, options);
+
+        setTimeout(() => {
+          console.log('Set call to the speaker after 5 seconds...');
+          this.twilio.toggleAudioOutput(false);
+        }, 5000);
       })
     .catch((error) => {
       console.error(error);

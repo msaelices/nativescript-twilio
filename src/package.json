@@ -1,6 +1,6 @@
 {
     "name": "nativescript-twilio",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "NativeScript Twilio SDK plugin",
     "main": "twilio",
     "typings": "index.d.ts",
@@ -26,7 +26,8 @@
         "plugin.prepare": "npm run tsc && cd ../demo && tns plugin remove nativescript-twilio && tns plugin add ../src",
         "clean": "cd ../demo && rimraf hooks node_modules platforms && cd ../src && rimraf node_modules && npm run plugin.link",
         "ci.tslint": "npm i && tslint '**/*.ts' --config '../tslint.json' --exclude '**/node_modules/**'",
-        "prepare": "node scripts/prepare.js"
+        "prepare": "node scripts/prepare.js",
+        "version": "conventional-changelog -p angular -r 2 -i ../CHANGELOG.md -s"
     },
     "keywords": [
         "NativeScript",
@@ -52,7 +53,8 @@
         "prompt": "^1.0.0",
         "rimraf": "^2.6.2",
         "tslint": "^5.11.0",
-        "semver": "^5.6.0"
+        "semver": "^5.6.0",
+        "conventional-changelog-cli": "^1.3.22"
     },
     "dependencies": {},
     "bootstrapper": "nativescript-plugin-seed"

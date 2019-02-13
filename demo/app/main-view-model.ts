@@ -68,7 +68,7 @@ export class HelloWorldModel extends Observable {
 
         setTimeout(() => {
           console.log('Set call to the speaker after 5 seconds...');
-          this.twilio.toggleAudioOutput(false);
+          this.twilio.toggleAudioOutput(true);
         }, 5000);
       })
     .catch((error) => {

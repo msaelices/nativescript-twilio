@@ -8,7 +8,6 @@ export let callListener: any = undefined;
 export function initTwilio(url:string, headers: any = {}) {
   accessTokenUrl = url;
   accessTokenHeaders = headers;
-  TwilioVoice.logLevel = TVOLogLevel.Verbose;
 }
 
 export function setupCallListener(listener: any) {

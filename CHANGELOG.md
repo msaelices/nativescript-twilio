@@ -1,3 +1,16 @@
+<a name="0.5.0"></a>
+# 0.5.0 (2019-02-13)
+
+
+### Features
+
+* Add some useful scripts for NPM publishing.
+
+
+### Bug Fixes
+
+* Link the README to the NPM repository.
+
 <a name="0.3.0"></a>
 # 0.3.0 (2019-02-13)
 

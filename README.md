@@ -103,9 +103,23 @@ tns plugin add nativescript-twilio
     .then((token) => {
       const twilio = new Twilio(token);
 
-      twilio.makeCall(phoneNumber);
+      const call = twilio.makeCall(phoneNumber);
+
+      // example of muting the call after 10 seconds
+      setTimeout(() => {
+        console.log('Muting call after 10 seconds...');
+        call.mute(true);
+      }, 10000);
+
+      // example of disconnecting the call after 30 seconds
+      setTimeout(() => {
+        console.log('Disconnecting call after 30 seconds...');
+        call.disconnect();
+      }, 30000);
+
     })
 ```
+
 
 ## License
 

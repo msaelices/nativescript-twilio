@@ -8,7 +8,6 @@ export let callListener: any = undefined;
 export function initTwilio(url:string, headers: any = {}) {
   accessTokenUrl = url;
   accessTokenHeaders = headers;
-  TwilioVoice.logLevel = TVOLogLevel.Verbose;
 }
 
 export function setupCallListener(listener: any) {
@@ -34,6 +33,11 @@ export function getAccessToken(): Promise<string> {
   });
 }
 
+export abstract class Call {
+  public abstract disconnect(): void;
+  public abstract mute(value: boolean): void;
+}
+
 export abstract class Common extends Observable {
   public accessToken: string;
 
@@ -43,5 +47,5 @@ export abstract class Common extends Observable {
     this.accessToken = accessToken;
   }
 
-  public abstract makeCall(senderPhoneNumber, phoneNumber, options): any;
+  public abstract makeCall(senderPhoneNumber, phoneNumber, options): Call;
 }

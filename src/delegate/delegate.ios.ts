@@ -9,12 +9,16 @@ export class CallDelegate extends NSObject implements TVOCallDelegate {
   }
 
   callDidDisconnectWithError(call: TVOCall, error: NSError) {
-    console.debug("callDidDisconnectWithError");
+    if (!error) {
+      console.debug("callDidDisconnect");
+    } else {
+      console.debug("callDidDisconnectWithError", error);
+    }
     common.callListener.onDisconnected(call);
   }
 
   callDidFailToConnectWithError(call: TVOCall, error: NSError) {
-    console.debug("callDidFailToConnectWithError");
+    console.debug("callDidFailToConnectWithError", error);
     common.callListener.onConnectFailure(call, error);
   }
 }

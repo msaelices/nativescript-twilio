@@ -48,4 +48,5 @@ export abstract class Common extends Observable {
   }
 
   public abstract makeCall(senderPhoneNumber, phoneNumber, options): Call;
+  public abstract toggleAudioOutput(toSpeaker: boolean): void;
 }

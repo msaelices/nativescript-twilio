@@ -27,7 +27,8 @@
         "clean": "cd ../demo && rimraf hooks node_modules platforms && cd ../src && rimraf node_modules && npm run plugin.link",
         "ci.tslint": "npm i && tslint '**/*.ts' --config '../tslint.json' --exclude '**/node_modules/**'",
         "prepare": "node scripts/prepare.js",
-        "version": "conventional-changelog -p angular -r 2 -i ../CHANGELOG.md -s"
+        "version": "conventional-changelog -p angular -r 2 -i ../CHANGELOG.md -s",
+        "package": "cd ../publish && ./pack.sh"
     },
     "keywords": [
         "NativeScript",
@@ -45,7 +46,7 @@
     },
     "license": "Apache-2.0",
     "homepage": "https://github.com/msaelices/nativescript-twilio",
-    "readmeFilename": "../README.md",
+    "readmeFilename": "README.md",
     "devDependencies": {
         "tns-core-modules": "^5.1.0",
         "tns-platform-declarations": "^5.1.0",

@@ -54,4 +54,8 @@ export class Twilio extends common.Common {
 
     return new Call(twilioCall);
   }
+
+  public toggleAudioOutput(toSpeaker: boolean): void {
+    console.log('Not implemented yet');
+  }
 }

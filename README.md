@@ -120,6 +120,21 @@ tns plugin add nativescript-twilio
     })
 ```
 
+## API
+
+### Twilio Methods
+
+| Method                          | Description                                                   |
+| ------------------------------- | ------------------------------------------------------------- |
+| _makeCall(senderPhoneNumber: any, phoneNumber: any, callListener: any, options?: any)_: `Call` | Make an outbound call. |
+| _toggleAudioOutput(toSpeaker: boolean)_: `void` | _iOS Only_ Set the audio session output to the speaker or not. |
+
+### Call Methods
+
+| Method                          | Description                                                  |
+| ------------------------------- | ------------------------------------------------------------ |
+| _mute(value: boolean)_: `void`  | Mute the call.                                               |
+| _disconnect()_: `void`          | Hang-up the call.                                            |
 
 ## License
 

@@ -40,4 +40,17 @@ export class Twilio extends common.Common {
     );
     return new Call(twilioCall);
   }
+
+  public toggleAudioOutput(toSpeaker: boolean): void {
+    let audioSession = AVAudioSession.sharedInstance();
+
+    try {
+      let output = toSpeaker ?
+        AVAudioSessionPortOverride.Speaker : AVAudioSessionPortOverride.None;
+      audioSession.overrideOutputAudioPortError(output);
+      console.debug(`audioSession output set with toSpeaker: ${toSpeaker}`);
+    } catch (err) {
+      console.error('Error setting audioSession output: ', err);
+    }
+  }
 }

@@ -4,6 +4,7 @@ import { fetch } from 'tns-core-modules/fetch';
 let accessTokenUrl:string = undefined;
 let accessTokenHeaders: any = {};
 export let callListener: any = undefined;
+export let pushListener: any = undefined;
 
 export function initTwilio(url:string, headers: any = {}) {
   accessTokenUrl = url;
@@ -12,6 +13,10 @@ export function initTwilio(url:string, headers: any = {}) {
 
 export function setupCallListener(listener: any) {
   callListener = listener;
+}
+
+export function setupPushListener(listener: any) {
+  pushListener = listener;
 }
 
 export function getAccessToken(): Promise<string> {

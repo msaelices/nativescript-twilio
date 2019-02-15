@@ -73,8 +73,9 @@ tns plugin add nativescript-twilio
 * In some place in your code (i.e. in some UI component `loaded` event) you need to setUp the call listener, which will handle the call's connection events:
 
 ```javascript
-  import { setupCallListener } from 'nativescript-twilio';
+  import { setupCallListener, setupPushListener } from 'nativescript-twilio';
 
+  // listener for inbound/outbound calls
   const callListener = {
     onConnectFailure(call, error) {
       dialogs.alert(`connection failure: ${error}`);
@@ -88,6 +89,18 @@ tns plugin add nativescript-twilio
   };
 
   setupCallListener(callListener);
+
+  // listener for push notifications (incoming calls)
+  const pushListener = {
+    onPushRegistered(accessToken, deviceToken) {
+      dialogs.alert('push registration succeded');
+    },
+    onPushRegisterFailure (error) {
+      dialogs.alert(`push registration failed: ${error}`);
+    }
+  };
+
+  setupPushListener(pushListener);
 ```
 
 * On the component for making outbound calls, put the following code:
@@ -122,19 +135,28 @@ tns plugin add nativescript-twilio
 
 ## API
 
+### Functions
+
+| Function                                 | Description                                                   |
+| ---------------------------------------- | -------------------------------------------------------- |
+| `initTwilio(url: string, headers?: any)` | Initialize Twilio passing the endpoint to the access token backend |
+| `getAccessToken(): Promise<string>`      | Ask the backend for an access token. Returns a Promise with the token retrieved |
+| `setupCallListener(listener: any)`       | Setup the call listener, passing an object with `onConnectFailure`, `onConnected` and `onDisconnected` callbacks |
+| `setupPushListener(listener: any)`       | Setup the push notifications listener, passing an object with `onPushRegistered` and `onPushRegisterFailure` callbacks |
+
 ### Twilio Methods
 
 | Method                          | Description                                                   |
 | ------------------------------- | ------------------------------------------------------------- |
-| _makeCall(senderPhoneNumber: any, phoneNumber: any, callListener: any, options?: any)_: `Call` | Make an outbound call. |
-| _toggleAudioOutput(toSpeaker: boolean)_: `void` | _iOS Only_ Set the audio session output to the speaker or not. |
+| `makeCall(senderPhoneNumber: any, phoneNumber: any, callListener: any, options?: any): Call` | Make an outbound call. |
+| `toggleAudioOutput(toSpeaker: boolean)` | _iOS Only_ Set the audio session output to the speaker or not. |
 
 ### Call Methods
 
 | Method                          | Description                                                  |
 | ------------------------------- | ------------------------------------------------------------ |
-| _mute(value: boolean)_: `void`  | Mute the call.                                               |
-| _disconnect()_: `void`          | Hang-up the call.                                            |
+| `mute(value: boolean)`          | Mute the call.                                               |
+| `disconnect()`                  | Hang-up the call.                                            |
 
 ## License
 

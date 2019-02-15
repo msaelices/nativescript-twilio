@@ -92,6 +92,7 @@ export class TwilioAppDelegate extends UIResponder
     error: NSError
   ) {
     console.error("failed to register push ", error);
+    common.pushListener.onPushRegisterFailure(error);
   }
 
   applicationDidReceiveRemoteNotification(
@@ -183,17 +184,18 @@ export class TwilioAppDelegate extends UIResponder
 
         const callback = (error) => {
           if (error) {
-            console.error("An error occurred while registering: \(error.localizedDescription)")
+            console.error('An error occurred while registering:', error.localizedDescription);
+            common.pushListener.onPushRegisterFailure(error);
           }
           else {
             console.debug(`Successfully registered for VoIP push notifications with deviceToken ${deviceToken}`);
+            common.pushListener.onPushRegistered(accessToken, deviceToken);
           }
         };
 
         TwilioVoice.registerWithAccessTokenDeviceTokenCompletion(accessToken, deviceToken, callback);
 
         this.deviceTokenString = deviceToken;
-
       })
       .catch((error) => {
         console.error('Error getting access token:', error);

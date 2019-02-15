@@ -8,6 +8,11 @@ const context = utilsAd.getApplicationContext();
 export const getAccessToken = common.getAccessToken;
 export const initTwilio = common.initTwilio;
 export const setupCallListener = common.setupCallListener;
+export const setupPushListener = common.setupPushListener;
+
+export function unregisterPushNotifications(token: string, deviceToken: string, callback?: (error: any) => void) {
+  console.warn('Not implemented yet');
+}
 
 export class Call extends common.Call {
   private _call: com.twilio.voice.Call;

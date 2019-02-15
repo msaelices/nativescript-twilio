@@ -143,6 +143,7 @@ tns plugin add nativescript-twilio
 | `getAccessToken(): Promise<string>`      | Ask the backend for an access token. Returns a Promise with the token retrieved |
 | `setupCallListener(listener: any)`       | Setup the call listener, passing an object with `onConnectFailure`, `onConnected` and `onDisconnected` callbacks |
 | `setupPushListener(listener: any)`       | Setup the push notifications listener, passing an object with `onPushRegistered` and `onPushRegisterFailure` callbacks |
+| `unregisterPushNotifications(token: string, deviceToken: string, callback?: (error: any) => void)` | Unregister push notifications (incoming calls) |
 
 ### Twilio Methods
 

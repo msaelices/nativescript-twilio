@@ -1,3 +1,12 @@
+<a name="0.7.0"></a>
+# 0.7.0 (2019-02-15)
+
+
+### Features
+
+* setupPushListener and unregisterPushNotifications implemented ([18a43ba](https://github.com/msaelices/nativescript-twilio/commit/18a43ba))
+
+
 <a name="0.6.0"></a>
 # 0.6.0 (2019-02-13)
 

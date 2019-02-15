@@ -1,3 +1,11 @@
+<a name="0.8.0"></a>
+# 0.8.0 (2019-02-15)
+
+### Documentation
+
+* Documented the `unregisterPushNotifications` function.
+
+
 <a name="0.7.0"></a>
 # 0.7.0 (2019-02-15)
 

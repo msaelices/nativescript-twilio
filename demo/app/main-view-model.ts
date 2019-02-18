@@ -3,7 +3,7 @@ import * as dialogs from 'tns-core-modules/ui/dialogs';
 import { isAndroid } from 'tns-core-modules/platform';
 
 import * as Permissions from 'nativescript-permissions';
-import { getAccessToken, setupCallListener, Twilio } from 'nativescript-twilio';
+import { getAccessToken, setupCallListener, setupPushListener, Twilio } from 'nativescript-twilio';
 
 declare var android: any;
 
@@ -46,6 +46,18 @@ export class HelloWorldModel extends Observable {
     };
 
     setupCallListener(callListener);
+
+    // listener for push notifications (incoming calls)
+    const pushListener = {
+      onPushRegistered(accessToken, deviceToken) {
+        dialogs.alert('push registration succeded');
+      },
+      onPushRegisterFailure (error) {
+        dialogs.alert(`push registration failed: ${error}`);
+      }
+    };
+
+    setupPushListener(pushListener);
   }
 
   public onCall(): void {

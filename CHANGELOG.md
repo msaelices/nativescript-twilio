@@ -1,3 +1,12 @@
+<a name="0.9.0"></a>
+# 0.9.0 (2019-02-18)
+
+
+### Bug Fixes
+
+* More robust callbacks, checking that are callable before calling them. ([63ded96](https://github.com/msaelices/nativescript-twilio/commit/63ded96))
+
+
 <a name="0.8.0"></a>
 # 0.8.0 (2019-02-15)
 

@@ -1,3 +1,11 @@
+<a name="0.10.0"></a>
+# 0.10.0 (2019-02-18)
+
+
+* Use the call invitation from value in CallKit UI. Also make App label configurable in the CallKit UI. ([33fcc84](https://github.com/msaelices/nativescript-twilio/commit/33fcc84))
+
+
+
 <a name="0.9.0"></a>
 # 0.9.0 (2019-02-18)
 

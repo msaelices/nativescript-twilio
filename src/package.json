@@ -1,6 +1,6 @@
 {
     "name": "nativescript-twilio",
-    "version": "0.9.0",
+    "version": "0.10.0",
     "description": "NativeScript Twilio SDK plugin",
     "main": "twilio",
     "typings": "index.d.ts",

@@ -62,7 +62,8 @@ export class TwilioAppDelegate extends UIResponder
     voipRegistry.delegate = this;
     voipRegistry.desiredPushTypes = NSSet.setWithObject(PKPushTypeVoIP);
 
-    let configuration = CXProviderConfiguration.alloc().initWithLocalizedName("CallKit {N} Quickstart");
+    let configuration = CXProviderConfiguration.alloc().initWithLocalizedName(
+        common.applicationName);
     configuration.maximumCallGroups = 1
     configuration.maximumCallsPerCallGroup = 1
 
@@ -236,7 +237,7 @@ export class TwilioAppDelegate extends UIResponder
 
     this.callInvite = callInvite;
 
-    this.reportIncomingCall("{N} Voice Bot", callInvite.uuid);
+    this.reportIncomingCall(callInvite.from, callInvite.uuid);
   }
 
   handleCallInviteCanceled(callInvite: TVOCallInvite) {

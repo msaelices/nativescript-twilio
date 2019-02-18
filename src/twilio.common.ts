@@ -55,3 +55,11 @@ export abstract class Common extends Observable {
   public abstract makeCall(senderPhoneNumber, phoneNumber, options): Call;
   public abstract toggleAudioOutput(toSpeaker: boolean): void;
 }
+
+export function callIt(listener: object, method: string, ...args) {
+  if (!listener) {
+    console.error('Listener is not defined');
+  } else if (typeof listener[method] === 'function') {
+    listener[method](...args);
+  }
+}

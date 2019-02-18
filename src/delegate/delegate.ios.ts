@@ -5,7 +5,7 @@ export class CallDelegate extends NSObject implements TVOCallDelegate {
 
   callDidConnect(call: TVOCall) {
     console.debug("callDidConnect");
-    common.callListener.onConnected(call);
+    common.callIt(common.callListener, 'onConnected', call);
   }
 
   callDidDisconnectWithError(call: TVOCall, error: NSError) {
@@ -14,12 +14,12 @@ export class CallDelegate extends NSObject implements TVOCallDelegate {
     } else {
       console.debug("callDidDisconnectWithError", error);
     }
-    common.callListener.onDisconnected(call);
+    common.callIt(common.callListener, 'onDisconnected', call);
   }
 
   callDidFailToConnectWithError(call: TVOCall, error: NSError) {
     console.debug("callDidFailToConnectWithError", error);
-    common.callListener.onConnectFailure(call, error);
+    common.callIt(common.callListener, 'onConnectFailure', call, error);
   }
 }
 
@@ -92,7 +92,7 @@ export class TwilioAppDelegate extends UIResponder
     error: NSError
   ) {
     console.error("failed to register push ", error);
-    common.pushListener.onPushRegisterFailure(error);
+    common.callIt(common.pushListener, 'onPushRegisterFailure', error);
   }
 
   applicationDidReceiveRemoteNotification(
@@ -185,11 +185,11 @@ export class TwilioAppDelegate extends UIResponder
         const callback = (error) => {
           if (error) {
             console.error('An error occurred while registering:', error.localizedDescription);
-            common.pushListener.onPushRegisterFailure(error);
+            common.callIt(common.pushListener, 'onPushRegisterFailure', error);
           }
           else {
             console.debug(`Successfully registered for VoIP push notifications with deviceToken ${deviceToken}`);
-            common.pushListener.onPushRegistered(accessToken, deviceToken);
+            common.callIt(common.pushListener, 'onPushRegistered', accessToken, deviceToken);
           }
         };
 

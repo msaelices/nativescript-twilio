@@ -5,6 +5,7 @@ export function getAccessToken(): Promise<string>;
 export function setupCallListener(listener: any);
 export function setupPushListener(listener: any);
 export function unregisterPushNotifications(token: string, deviceToken: string, callback?: (error: any) => void);
+export function callIt(listener: object, method: string, ...args);
 
 export let callListener: any;
 export let pushListener: any;

@@ -1,6 +1,6 @@
 import * as common from './twilio.common';
 
-export function initTwilio(url: string, headers?: any);
+export function initTwilio(url: string, headers?: any, appName?: string);
 export function getAccessToken(): Promise<string>;
 export function setupCallListener(listener: any);
 export function setupPushListener(listener: any);

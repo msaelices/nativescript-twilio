@@ -3,16 +3,12 @@ import { fetch } from 'tns-core-modules/fetch';
 
 let accessTokenUrl:string = undefined;
 let accessTokenHeaders: any = {};
-export let applicationName: string = 'TwilioApp';
 export let callListener: any = undefined;
 export let pushListener: any = undefined;
 
-export function initTwilio(url:string, headers: any = {}, appName?: string) {
+export function initTwilio(url:string, headers: any = {}) {
   accessTokenUrl = url;
   accessTokenHeaders = headers;
-  if (appName) {
-      applicationName = appName;
-  }
 }
 
 export function setupCallListener(listener: any) {

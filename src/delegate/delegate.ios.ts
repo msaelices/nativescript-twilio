@@ -1,5 +1,7 @@
 import * as common from '../twilio.common';
 
+import { ios as iosUtils } from 'tns-core-modules/utils/utils';
+
 export class CallDelegate extends NSObject implements TVOCallDelegate {
   static ObjCProtocols = [TVOCallDelegate];
 
@@ -62,8 +64,10 @@ export class TwilioAppDelegate extends UIResponder
     voipRegistry.delegate = this;
     voipRegistry.desiredPushTypes = NSSet.setWithObject(PKPushTypeVoIP);
 
-    let configuration = CXProviderConfiguration.alloc().initWithLocalizedName(
-        common.applicationName);
+    let mainBundle = iosUtils.getter(NSBundle, NSBundle.mainBundle);
+    let appName = mainBundle.infoDictionary.objectForKey('CFBundleDisplayName');
+
+    let configuration = CXProviderConfiguration.alloc().initWithLocalizedName(appName);
     configuration.maximumCallGroups = 1
     configuration.maximumCallsPerCallGroup = 1
 

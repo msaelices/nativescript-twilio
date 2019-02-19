@@ -1,3 +1,13 @@
+<a name="0.12.0"></a>
+# 0.12.0 (2019-02-19)
+
+
+### Features
+
+* Show the actual app name in the callkit UI, without need of configurate it. ([40613c5](https://github.com/msaelices/nativescript-twilio/commit/40613c5))
+
+
+
 <a name="0.11.0"></a>
 # 0.11.0 (2019-02-18)
 

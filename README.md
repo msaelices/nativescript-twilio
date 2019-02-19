@@ -62,15 +62,13 @@ tns plugin add nativescript-twilio
   const accessTokenUrl = 'http://yourserver/path/to/access-token';
   const accessTokenHeaders = {'Authorization': 'Token sometoken'};
 
-  initTwilio(accessTokenUrl, accessTokenHeaders, 'My App Name');
+  initTwilio(accessTokenUrl, accessTokenHeaders);
 
   if (application.ios) {
     // register twilio app delegate in order to receive incoming calls
     application.ios.delegate = TwilioAppDelegate;
   }
 ```
-
-The literal `My App Name` will appear in the `CallKit` UI for the incoming calls.
 
 * In some place in your code (i.e. in some UI component `loaded` event) you need to setUp the call listener, which will handle the call's connection events:
 

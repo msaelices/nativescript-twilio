@@ -4,12 +4,13 @@ import { initTwilio } from 'nativescript-twilio';
 import { TwilioAppDelegate } from 'nativescript-twilio/delegate';
 
 // Please fill these values
-const accessTokenUrl = 'https://lin.ngrok.io/accessToken';
+const accessTokenUrl = '';
 const accessTokenHeaders = {
   // 'Authorization': 'Token sometoken',
 };
 
-initTwilio(accessTokenUrl, accessTokenHeaders, 'Demo App');
+initTwilio(accessTokenUrl, accessTokenHeaders);
+
 
 if (application.ios) {
   // register twilio app delegate in order to receive push notifications

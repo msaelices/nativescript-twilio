@@ -149,7 +149,7 @@ tns plugin add nativescript-twilio
 
 | Method                          | Description                                                   |
 | ------------------------------- | ------------------------------------------------------------- |
-| `makeCall(senderPhoneNumber: any, phoneNumber: any, callListener: any, options?: any): Call` | Make an outbound call. |
+| `makeCall(senderPhoneNumber: any, phoneNumber: any, options?: any): Call` | Make an outbound call. |
 | `toggleAudioOutput(toSpeaker: boolean)` | _iOS Only_ Set the audio session output to the speaker or not. |
 
 ### Call Methods

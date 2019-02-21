@@ -1,3 +1,13 @@
+<a name="0.13.0"></a>
+# 0.13.0 (2019-02-21)
+
+
+### Bug Fixes
+
+* Fix TS makeCall signature ([c644c0b](https://github.com/msaelices/nativescript-twilio/commit/c644c0b))
+
+
+
 <a name="0.12.0"></a>
 # 0.12.0 (2019-02-19)
 

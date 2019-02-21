@@ -17,6 +17,6 @@ export declare class Call extends common.Call {
 
 export declare class Twilio extends common.Common {
   constructor(accessToken: string);
-  makeCall(senderPhoneNumber: any, phoneNumber: any, callListener: any, options?: any): Call;
+  makeCall(senderPhoneNumber: any, phoneNumber: any, options?: any): Call;
   toggleAudioOutput(toSpeaker: boolean): void;
 }

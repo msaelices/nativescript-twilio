@@ -1,11 +1,11 @@
 {
   "nativescript": {
     "id": "org.nativescript.demotwilio",
-    "tns-android": {
-      "version": "5.1.0"
-    },
     "tns-ios": {
-      "version": "5.1.1"
+      "version": "5.2.0"
+    },
+    "tns-android": {
+      "version": "5.2.0"
     }
   },
   "dependencies": {
@@ -13,7 +13,7 @@
     "nativescript-theme-core": "^1.0.4",
     "nativescript-twilio": "../src",
     "nativescript-unit-test-runner": "^0.3.4",
-    "tns-core-modules": "^5.1.0"
+    "tns-core-modules": "^5.2.1"
   },
   "devDependencies": {
     "awesome-typescript-loader": "~3.1.3",

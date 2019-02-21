@@ -5,7 +5,7 @@ import { getAccessToken, setupCallListener, Twilio } from 'nativescript-twilio';
 
 @Component({
     selector: "my-app",
-    templateUrl: "app.component.html",
+    templateUrl: "./app.component.html",
 })
 export class AppComponent {
     public senderPhoneNumber: string = '';

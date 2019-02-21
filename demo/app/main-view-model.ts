@@ -33,19 +33,29 @@ export class HelloWorldModel extends Observable {
       });
     }
 
+    let self = this;
+
     const callListener = {
       onConnectFailure(call, error) {
         dialogs.alert(`connection failure: ${error}`);
       },
       onConnected (call) {
         dialogs.alert(`call connected`);
+        setTimeout(() => {
+          console.log('\n\n\n\n\nMUTE!!!!\n\n\n\n\n');
+          // call.mute(true);
+          self.twilio.toggleAudioOutput(false);
+        }, 3000)
       },
       onDisconnected (call) {
         dialogs.alert('disconnected');
       }
     };
 
-    setupCallListener(callListener);
+    setTimeout(() => {
+      console.log('setupCallListener!');
+      setupCallListener(callListener);
+    }, 10000)
 
     // listener for push notifications (incoming calls)
     const pushListener = {

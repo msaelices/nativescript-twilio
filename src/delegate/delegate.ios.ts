@@ -6,15 +6,15 @@ export class CallDelegate extends NSObject implements TVOCallDelegate {
   static ObjCProtocols = [TVOCallDelegate];
 
   callDidConnect(call: TVOCall) {
-    console.debug("callDidConnect");
+    console.error("callDidConnect");
     common.callIt(common.callListener, 'onConnected', call);
   }
 
   callDidDisconnectWithError(call: TVOCall, error: NSError) {
     if (!error) {
-      console.debug("callDidDisconnect");
+      console.error("callDidDisconnect");
     } else {
-      console.debug("callDidDisconnectWithError", error);
+      console.error("callDidDisconnectWithError", error);
     }
     common.callIt(common.callListener, 'onDisconnected', call);
   }
@@ -350,6 +350,7 @@ export class TwilioAppDelegate extends UIResponder
 
   providerPerformStartCallAction(provider: CXProvider, action: CXStartCallAction) {
     console.debug('providerPerformStartCallAction');
+    
   }
 
   providerTimedOutPerformingAction(provider: CXProvider, action: CXAction) {

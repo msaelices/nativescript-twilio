@@ -40,12 +40,7 @@ export class HelloWorldModel extends Observable {
         dialogs.alert(`connection failure: ${error}`);
       },
       onConnected (call) {
-        dialogs.alert(`call connected`);
-        setTimeout(() => {
-          console.log('\n\n\n\n\nMUTE!!!!\n\n\n\n\n');
-          // call.mute(true);
-          self.twilio.toggleAudioOutput(false);
-        }, 3000)
+        dialogs.alert('call connected');
       },
       onDisconnected (call) {
         dialogs.alert('disconnected');

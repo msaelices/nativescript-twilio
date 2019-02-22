@@ -6,15 +6,15 @@ export class CallDelegate extends NSObject implements TVOCallDelegate {
   static ObjCProtocols = [TVOCallDelegate];
 
   callDidConnect(call: TVOCall) {
-    console.debug("callDidConnect");
+    console.error("callDidConnect");
     common.callIt(common.callListener, 'onConnected', call);
   }
 
   callDidDisconnectWithError(call: TVOCall, error: NSError) {
     if (!error) {
-      console.debug("callDidDisconnect");
+      console.error("callDidDisconnect");
     } else {
-      console.debug("callDidDisconnectWithError", error);
+      console.error("callDidDisconnectWithError", error);
     }
     common.callIt(common.callListener, 'onDisconnected', call);
   }
@@ -36,12 +36,18 @@ export class TwilioAppDelegate extends UIResponder
   deviceTokenString: string;
   incomingPushCompletionCallback: () => void;
   callKitCompletionCallback: () => void;
+  audioDevice: TVODefaultAudioDevice;
 
   applicationDidFinishLaunchingWithOptions(
     application: UIApplication,
     launchOptions
   ): boolean {
     console.debug("applicationWillFinishLaunchingWithOptions: ", this);
+
+    // this should be done before performing any other actions with the SDK
+    // (such as connecting a Call, or accepting an incoming Call)
+    this.audioDevice = TVODefaultAudioDevice.audioDevice();
+    TwilioVoice.audioDevice = this.audioDevice;
 
     let center = UNUserNotificationCenter.currentNotificationCenter();
 
@@ -211,12 +217,12 @@ export class TwilioAppDelegate extends UIResponder
   // TVONotificationDelegate interface implementation
   callInviteReceived(callInvite: TVOCallInvite) {
     console.debug("callInviteReceived");
+    this.handleCallInviteReceived(callInvite)
+  }
 
-    if (callInvite.state === TVOCallInviteState.Pending) {
-      this.handleCallInviteReceived(callInvite)
-    } else if (callInvite.state == TVOCallInviteState.Canceled) {
-      this.handleCallInviteCanceled(callInvite)
-    }
+  cancelledCallInviteReceived(cancelledCallInvite: TVOCancelledCallInvite) {
+    console.debug("cancelledCallInviteReceived");
+    this.handleCallInviteCanceled(cancelledCallInvite);
   }
 
   notificationError(error: NSError) {
@@ -227,12 +233,7 @@ export class TwilioAppDelegate extends UIResponder
   handleCallInviteReceived(callInvite: TVOCallInvite) {
     console.debug("handleCallInviteReceived");
 
-    if (this.callInvite && this.callInvite.state == TVOCallInviteState.Pending) {
-        console.debug("Already a pending incoming call invite.");
-        console.debug("  >> Ignoring call from %@", callInvite.from);
-        this.incomingPushHandled()
-        return;
-    } else if (this.call) {
+    if (this.call) {
         console.debug("Already an active call.");
         console.debug("  >> Ignoring call from %@", callInvite.from);
         this.incomingPushHandled()
@@ -244,8 +245,8 @@ export class TwilioAppDelegate extends UIResponder
     this.reportIncomingCall(callInvite.from, callInvite.uuid);
   }
 
-  handleCallInviteCanceled(callInvite: TVOCallInvite) {
-    console.debug("callInviteCanceled");
+  handleCallInviteCanceled(callInviteCanceled: TVOCancelledCallInvite) {
+    console.debug("handleCallInviteCanceled");
     // performEndCallAction(callInvite.uuid);
     this.callInvite = null;
     this.incomingPushHandled()
@@ -278,10 +279,8 @@ export class TwilioAppDelegate extends UIResponder
           console.error(`Failed to report incoming call successfully: ${error.localizedDescription}`);
           return
       }
-      TwilioVoice.logLevel = TVOLogLevel.Verbose;
+      TwilioVoice.logLevel = TVOLogLevel.All;
       console.debug("Incoming call successfully reported.");
-      // RCP: Workaround per https://forums.developer.apple.com/message/169511
-      TwilioVoice.configureAudioSession();
     }
 
     this.callKitProvider.reportNewIncomingCallWithUUIDUpdateCompletion(uuid, callUpdate, callback);
@@ -290,12 +289,12 @@ export class TwilioAppDelegate extends UIResponder
   // CXProviderDelegate interface implementation
   providerDidReset(provider: CXProvider) {
     console.debug('providerDidReset');
-    TwilioVoice.audioEnabled = true;
+    this.audioDevice.enabled = true;
   }
 
 	providerDidActivateAudioSession(provider: CXProvider, audioSession: AVAudioSession) {
     console.debug('providerDidActivateAudioSession');
-    TwilioVoice.audioEnabled = true;
+    this.audioDevice.enabled = true;
   }
 
 	providerDidBegin(provider: CXProvider) {
@@ -314,7 +313,9 @@ export class TwilioAppDelegate extends UIResponder
 	providerPerformAnswerCallAction(provider: CXProvider, action: CXAnswerCallAction) {
     console.debug('providerPerformAnswerCallAction');
 
-    TwilioVoice.audioEnabled = false;
+    this.audioDevice.enabled = false;
+    this.audioDevice.block();
+
     const callback = (success) => {
         if (success) {
             action.fulfill()
@@ -350,6 +351,7 @@ export class TwilioAppDelegate extends UIResponder
 
   providerPerformStartCallAction(provider: CXProvider, action: CXStartCallAction) {
     console.debug('providerPerformStartCallAction');
+
   }
 
   providerTimedOutPerformingAction(provider: CXProvider, action: CXAction) {
@@ -360,7 +362,11 @@ export class TwilioAppDelegate extends UIResponder
   performAnswerVoiceCall(uuid, completionHandler) {
     console.debug('performAnswerVoiceCall');
     const callDelegate = new CallDelegate();
-    let call = this.callInvite.acceptWithDelegate(callDelegate);
+    let acceptOptions = TVOAcceptOptions.optionsWithCallInviteBlock(
+      this.callInvite, (builder) => {
+        builder.uuid = this.callInvite.uuid;
+      });
+    let call = this.callInvite.acceptWithOptionsDelegate(acceptOptions, callDelegate);
     this.callInvite = null;
     this.callKitCompletionCallback = completionHandler;
     this.incomingPushHandled();

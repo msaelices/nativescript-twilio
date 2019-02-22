@@ -38,9 +38,13 @@ export class Twilio extends common.Common {
     options.To = phoneNumber;
     const params = NSDictionary.dictionaryWithDictionary(options);
 
-    const twilioCall = TwilioVoice.callParamsDelegate(
-      this.accessToken,
-      params,
+    const connectOptions = TVOConnectOptions.optionsWithAccessTokenBlock(
+      this.accessToken, (builder) => {
+        builder.params = params;
+      });
+
+    const twilioCall = TwilioVoice.connectWithOptionsDelegate(
+      connectOptions,
       callDelegate
     );
     return new Call(twilioCall);

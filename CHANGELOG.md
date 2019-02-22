@@ -1,3 +1,12 @@
+<a name="0.14.0"></a>
+# 0.14.0 (2019-02-22)
+
+
+### Features
+
+* Twilio SDK 3.0 support ([PR 9](https://github.com/msaelices/nativescript-twilio/pull/9))
+
+
 <a name="0.13.0"></a>
 # 0.13.0 (2019-02-21)
 

@@ -8,6 +8,6 @@ import { AppComponent } from "./app.component";
     schemas: [NO_ERRORS_SCHEMA],
     declarations: [AppComponent],
     bootstrap: [AppComponent],
-    imports: [NativeScriptModule, NativeScriptFormsModule,],
+    imports: [NativeScriptModule, NativeScriptFormsModule, ],
 })
 export class AppModule {}

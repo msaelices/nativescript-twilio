@@ -1,12 +1,12 @@
 import { Observable } from 'tns-core-modules/data/observable';
 import { fetch } from 'tns-core-modules/fetch';
 
-let accessTokenUrl:string = undefined;
+let accessTokenUrl: string = undefined;
 let accessTokenHeaders: any = {};
 export let callListener: any = undefined;
 export let pushListener: any = undefined;
 
-export function initTwilio(url:string, headers: any = {}) {
+export function initTwilio(url: string, headers: any = {}) {
   accessTokenUrl = url;
   accessTokenHeaders = headers;
 }
@@ -24,9 +24,9 @@ export function getAccessToken(): Promise<string> {
     fetch(accessTokenUrl, {headers: accessTokenHeaders})
       .then((response) => {
         if (response.ok) {
-          return response.text()
+          return response.text();
         } else {
-          reject(new Error(`Response with status code: ${response.status}`))
+          reject(new Error(`Response with status code: ${response.status}`));
         }
       })
       .then((data) => {
@@ -34,7 +34,7 @@ export function getAccessToken(): Promise<string> {
       })
       .catch((error) => {
         reject(error);
-      })
+      });
   });
 }
 

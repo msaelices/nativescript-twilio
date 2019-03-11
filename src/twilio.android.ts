@@ -46,9 +46,9 @@ export class Twilio extends common.Common {
 
     Object.keys(options).forEach((key) => {
       optionsMap.put(key, options[key]);
-    })
+    });
 
-    const listener = new com.twilio.voice.Call.Listener(common.callListener)
+    const listener = new com.twilio.voice.Call.Listener(common.callListener);
 
     const twilioCall = com.twilio.voice.Voice.call(
       context,

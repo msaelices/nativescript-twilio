@@ -50,7 +50,7 @@ export class HelloWorldModel extends Observable {
     setTimeout(() => {
       console.log('setupCallListener!');
       setupCallListener(callListener);
-    }, 10000)
+    }, 10000);
 
     // listener for push notifications (incoming calls)
     const pushListener = {
@@ -74,10 +74,10 @@ export class HelloWorldModel extends Observable {
 
         let options = {};
         if (this.option1.key) {
-          options[this.option1.key] = this.option1.value
+          options[this.option1.key] = this.option1.value;
         }
         if (this.option2.key) {
-          options[this.option2.key] = this.option2.value
+          options[this.option2.key] = this.option2.value;
         }
 
         console.log('Calling to ', this.phoneNumber);
@@ -86,6 +86,6 @@ export class HelloWorldModel extends Observable {
     .catch((error) => {
       console.error(error);
       dialogs.alert(error);
-    })
+    });
   }
 }

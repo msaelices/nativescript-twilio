@@ -42,6 +42,6 @@ export class AppComponent {
             .catch((error) => {
                 console.error(error);
                 dialogs.alert(error);
-            })
+            });
     }
 }

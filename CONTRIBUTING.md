@@ -77,3 +77,22 @@ It's our turn from there on! We will review the PR and discuss changes you might
 ## Where to Start
 
 If you want to contribute, but you are not sure where to start - look for issues labeled [`help wanted`](https://github.com/msaelices/nativescript-twilio/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22).
+
+
+## Upgrading Twilio SDK TS declarations
+
+### On iOS
+
+* Update the `TwilioVoice` version in the `src/platforms/ios/Podfile` file.
+* Build the demo application for iOS defining the `TNS_TYPESCRIPT_DECLARATIONS_PATH` env var to re-build all the TS declarations:
+
+```bash
+$ cd demo
+$ TNS_TYPESCRIPT_DECLARATIONS_PATH="$(pwd)/typings" tns build ios
+```
+
+* Copy the generated `typings/x86_64/objc\!TwilioVoice.d.ts` typings into `src/platforms/ios/typings`
+
+### On Android
+
+Please follow the general guide: https://docs.nativescript.org/core-concepts/android-runtime/metadata/generating-typescript-declarations

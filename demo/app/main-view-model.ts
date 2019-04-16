@@ -1,6 +1,7 @@
 import { Observable } from 'tns-core-modules/data/observable';
 import * as dialogs from 'tns-core-modules/ui/dialogs';
 import { isAndroid } from 'tns-core-modules/platform';
+import * as frameModule from 'tns-core-modules/ui/frame';
 
 import * as Permissions from 'nativescript-permissions';
 import { getAccessToken, setupCallListener, setupPushListener, Twilio } from 'nativescript-twilio';
@@ -41,6 +42,12 @@ export class HelloWorldModel extends Observable {
       },
       onConnected (call) {
         dialogs.alert('call connected');
+        // TODO: fix the issue of disconnecting the call after navigating
+        // to some other page with the call connected
+        // this should happen after 8 seconds of connecting the call
+        setTimeout(() => {
+          frameModule.topmost().navigate('detail-page');
+        }, 8000);
       },
       onDisconnected (call) {
         dialogs.alert('disconnected');

@@ -3,15 +3,14 @@ import * as dialogs from 'tns-core-modules/ui/dialogs';
 import { isAndroid } from 'tns-core-modules/platform';
 
 import * as Permissions from 'nativescript-permissions';
-import { getAccessToken, setupCallListener, setupPushListener, Twilio } from 'nativescript-twilio';
+import { getAccessToken, Twilio } from 'nativescript-twilio';
 
 declare var android: any;
 
 export class HelloWorldModel extends Observable {
   public message: string;
-  public senderPhoneNumber: string = '+34606039750';
-  // public phoneNumber: string = '+639171137700';
-  public phoneNumber: string = '+34605264081';
+  public senderPhoneNumber: string = '';
+  public phoneNumber: string = '';
   public option1: any = {
     key: '',
     value: '',
@@ -32,37 +31,6 @@ export class HelloWorldModel extends Observable {
         console.log('Permission is not granted :(');
       });
     }
-
-    let self = this;
-
-    const callListener = {
-      onConnectFailure(call, error) {
-        dialogs.alert(`connection failure: ${error}`);
-      },
-      onConnected (call) {
-        dialogs.alert('call connected');
-      },
-      onDisconnected (call) {
-        dialogs.alert('disconnected');
-      }
-    };
-
-    setTimeout(() => {
-      console.log('setupCallListener!');
-      setupCallListener(callListener);
-    }, 10000);
-
-    // listener for push notifications (incoming calls)
-    const pushListener = {
-      onPushRegistered(accessToken, deviceToken) {
-        dialogs.alert('push registration succeded');
-      },
-      onPushRegisterFailure (error) {
-        dialogs.alert(`push registration failed: ${error}`);
-      }
-    };
-
-    setupPushListener(pushListener);
   }
 
   public onCall(): void {

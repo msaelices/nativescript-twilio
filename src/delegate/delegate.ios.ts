@@ -366,7 +366,7 @@ export class TwilioAppDelegate extends UIResponder
       this.callInvite, (builder) => {
         builder.uuid = this.callInvite.uuid;
       });
-    let call = this.callInvite.acceptWithOptionsDelegate(acceptOptions, callDelegate);
+    this.call = this.callInvite.acceptWithOptionsDelegate(acceptOptions, callDelegate);
     this.callInvite = null;
     this.callKitCompletionCallback = completionHandler;
     this.incomingPushHandled();

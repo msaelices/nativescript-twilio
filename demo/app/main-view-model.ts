@@ -1,16 +1,16 @@
 import { Observable } from 'tns-core-modules/data/observable';
 import * as dialogs from 'tns-core-modules/ui/dialogs';
 import { isAndroid } from 'tns-core-modules/platform';
-
+import { device } from "tns-core-modules/platform";
 import * as Permissions from 'nativescript-permissions';
-import { getAccessToken, Twilio } from 'nativescript-twilio';
+import { getAccessToken, Twilio , unregisterPushNotifications} from 'nativescript-twilio';
 
 declare var android: any;
 
 export class HelloWorldModel extends Observable {
   public message: string;
-  public senderPhoneNumber: string = '';
-  public phoneNumber: string = '';
+  public senderPhoneNumber: string = '+14175224402'; // Assign the default phone number from where the call will originate, or the client that it originates from i.e. client:alice
+  public phoneNumber: string = '+14176932641'; // Assign the default receiving phone number or client i.e. +12345678
   public option1: any = {
     key: '',
     value: '',

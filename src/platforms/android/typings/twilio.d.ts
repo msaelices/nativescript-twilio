@@ -5,7 +5,7 @@ declare module com {
 	export module twilio {
 		export module voice {
 			export class BridgeCallCommand extends com.twilio.voice.CallCommand {
-				public createTwilioHeaders(): javautilMap;
+				public createTwilioHeaders(): javautilMap<String, String>;
 				public run(): void;
 			}
 		}
@@ -48,7 +48,7 @@ declare module com {
 				public getTo(): string;
 				public onWarningCleared(param0: com.twilio.voice.EventPayload.WarningName): void;
 				public onSample(param0: com.twilio.voice.RTCStatsSample): void;
-				public onWarning(param0: javautilHashMap): void;
+				public onWarning(param0: javautilHashMap<String, String>): void;
 				public isMuted(): boolean;
 				public onError(param0: com.twilio.voice.VoiceException): void;
 				public getFrom(): string;
@@ -101,9 +101,9 @@ declare module com {
 				public from: string;
 				public token: string;
 				public call: com.twilio.voice.Call;
-				public params: javautilMap;
-				public createTwilioHeaders(): javautilMap;
-				public startCall(param0: javautilMap): void;
+				public params: javautilMap<String, String>;
+				public createTwilioHeaders(): javautilMap<String, String>;
+				public startCall(param0: javautilMap<String, String>): void;
 			}
 		}
 	}
@@ -160,7 +160,7 @@ declare module com {
 			export class CallControlManager {
 				public onCallState(param0: com.twilio.voice.impl.useragent.Call, param1: com.twilio.voice.impl.session.Event): void;
 				public onCallMediaState(param0: com.twilio.voice.impl.useragent.Call): void;
-				public static call(param0: androidcontentContext, param1: string, param2: javautilMap, param3: com.twilio.voice.Call.Listener): com.twilio.voice.Call;
+				public static call(param0: androidcontentContext, param1: string, param2: javautilMap<String, String>, param3: com.twilio.voice.Call.Listener): com.twilio.voice.Call;
 				public sendDigits(param0: com.twilio.voice.InternalCall, param1: string): void;
 				public constructor(param0: androidcontentContext, param1: com.twilio.voice.impl.TwilioConfig);
 				public setLogging(param0: com.twilio.voice.impl.useragent.config.LoggingConfig): void;
@@ -201,7 +201,7 @@ declare module com {
 	export module twilio {
 		export module voice {
 			export class CallInvite {
-				public static CREATOR: androidosParcelableCreator;
+				public static CREATOR: androidosParcelableCreator<any>;
 				public getCallSid(): string;
 				public getState(): com.twilio.voice.CallInvite.State;
 				public writeToParcel(param0: androidosParcel, param1: number): void;
@@ -525,7 +525,7 @@ declare module com {
 				public disconnect(): void;
 				public onWarningCleared(param0: com.twilio.voice.EventPayload.WarningName): void;
 				public onSample(param0: com.twilio.voice.RTCStatsSample): void;
-				public onWarning(param0: javautilHashMap): void;
+				public onWarning(param0: javautilHashMap<String, String>): void;
 				public isMuted(): boolean;
 				public onError(param0: com.twilio.voice.VoiceException): void;
 			}
@@ -593,7 +593,7 @@ declare module com {
 				public i(param0: string): void;
 				public v(param0: string): void;
 				public w(param0: string, param1: javalangThrowable): void;
-				public static getLogger(param0: javalangClass): com.twilio.voice.Logger;
+				public static getLogger(param0: javalangClass<any>): com.twilio.voice.Logger;
 			}
 		}
 	}
@@ -791,8 +791,8 @@ declare module com {
 	export module twilio {
 		export module voice {
 			export class OutgoingCallCommand extends com.twilio.voice.CallCommand {
-				public createTwilioHeaders(): javautilMap;
-				public constructor(param0: string, param1: string, param2: com.twilio.voice.InternalCall, param3: javautilMap);
+				public createTwilioHeaders(): javautilMap<String, String>;
+				public constructor(param0: string, param1: string, param2: com.twilio.voice.InternalCall, param3: javautilMap<String, String>);
 				public run(): void;
 			}
 		}
@@ -838,13 +838,13 @@ declare module com {
 					 * Constructs a new instance of the com.twilio.voice.RTCMonitorCommand$Listener interface with the provided implementation.
 					 */
 					public constructor(implementation: {
-						onWarning(param0: javautilHashMap): void;
+						onWarning(param0: javautilHashMap<String, String>): void;
 						onWarningCleared(param0: com.twilio.voice.EventPayload.WarningName): void;
 						onSample(param0: com.twilio.voice.RTCStatsSample): void;
 					});
 					public onSample(param0: com.twilio.voice.RTCStatsSample): void;
 					public onWarningCleared(param0: com.twilio.voice.EventPayload.WarningName): void;
-					public onWarning(param0: javautilHashMap): void;
+					public onWarning(param0: javautilHashMap<String, String>): void;
 				}
 			}
 		}
@@ -1004,7 +1004,7 @@ declare module com {
 			export class RejectCallCommand {
 				public constructor(param0: string, param1: string, param2: com.twilio.voice.InternalCall);
 				public run(): void;
-				public createTwilioHeaders(param0: string): javautilMap;
+				public createTwilioHeaders(param0: string): javautilMap<String, String>;
 			}
 		}
 	}
@@ -1134,9 +1134,9 @@ declare module com {
 	export module twilio {
 		export module voice {
 			export abstract class Voice {
-				public static call(param0: androidcontentContext, param1: string, param2: javautilMap, param3: com.twilio.voice.Call.Listener): com.twilio.voice.Call;
+				public static call(param0: androidcontentContext, param1: string, param2: javautilMap<String, String>, param3: com.twilio.voice.Call.Listener): com.twilio.voice.Call;
 				public static setModuleLogLevel(param0: com.twilio.voice.LogModule, param1: com.twilio.voice.LogLevel): void;
-				public static handleMessage(param0: androidcontentContext, param1: javautilMap, param2: com.twilio.voice.MessageListener): void;
+				public static handleMessage(param0: androidcontentContext, param1: javautilMap<String, String>, param2: com.twilio.voice.MessageListener): void;
 				public static getModuleLogLevel(param0: com.twilio.voice.LogModule): com.twilio.voice.LogLevel;
 				public constructor();
 				public static register(param0: androidcontentContext, param1: string, param2: com.twilio.voice.Voice.RegistrationChannel, param3: string, param4: com.twilio.voice.RegistrationListener): void;
@@ -1375,11 +1375,11 @@ declare module com {
 			export module impl {
 				export module session {
 					export class Message {
-						public constructor(param0: string, param1: string, param2: javautilMap);
-						public constructor(param0: number, param1: string, param2: javautilMap);
+						public constructor(param0: string, param1: string, param2: javautilMap<String, String>);
+						public constructor(param0: number, param1: string, param2: javautilMap<String, String>);
 						public getStatusLine(): com.twilio.voice.impl.session.Message.StatusLine;
 						public toString(): string;
-						public getHeaders(): javautilMap;
+						public getHeaders(): javautilMap<String, String>;
 					}
 					export module Message {
 						export class RequestLine {
@@ -1646,8 +1646,8 @@ declare module com {
 				export module useragent {
 					export class Codec {
 						public getPriority(): com.twilio.voice.impl.useragent.Codec.Priority;
-						public static getAll(): javautilList;
-						public static get(param0: string): javautilList;
+						public static getAll(): javautilList<any>;
+						public static get(param0: string): javautilList<any>;
 						public static setPriorityByPrefix(param0: string, param1: com.twilio.voice.impl.useragent.Codec.Priority): void;
 						public setPriority(param0: com.twilio.voice.impl.useragent.Codec.Priority): void;
 						public getCodecId(): string;
@@ -1703,9 +1703,9 @@ declare module com {
 					export class MessageData {
 						public getBody(): string;
 						public getContentType(): string;
-						public constructor(param0: javautilMap, param1: string, param2: string);
-						public constructor(param0: javautilMap);
-						public getHeaders(): javautilMap;
+						public constructor(param0: javautilMap<String, String>, param1: string, param2: string);
+						public constructor(param0: javautilMap<String, String>);
+						public getHeaders(): javautilMap<String, String>;
 					}
 				}
 			}
@@ -1740,7 +1740,7 @@ declare module com {
 				export module useragent {
 					export module config {
 						export class AccountConfig {
-							public constructor(param0: string, param1: javautilList, param2: boolean, param3: com.twilio.voice.impl.useragent.config.TransportConfig);
+							public constructor(param0: string, param1: javautilList<any>, param2: boolean, param3: com.twilio.voice.impl.useragent.config.TransportConfig);
 						}
 					}
 				}

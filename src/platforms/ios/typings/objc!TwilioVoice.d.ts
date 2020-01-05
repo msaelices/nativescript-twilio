@@ -251,7 +251,7 @@ declare class TVOConnectOptions extends TVOCallOptions {
 
 	readonly accessToken: string;
 
-	readonly params: NSDictionary<string, string>;
+	readonly params: NSDictionary<{}, {}>;
 }
 
 declare class TVOConnectOptionsBuilder extends TVOCallOptionsBuilder {
@@ -260,7 +260,7 @@ declare class TVOConnectOptionsBuilder extends TVOCallOptionsBuilder {
 
 	static new(): TVOConnectOptionsBuilder; // inherited from NSObject
 
-	params: NSDictionary<string, string>;
+	params: NSDictionary<{}, {}>;
 }
 
 declare class TVODefaultAudioDevice extends NSObject implements TVOAudioDevice {

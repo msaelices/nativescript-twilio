@@ -1,0 +1,141 @@
+
+<GridLayout rows="auto,auto,auto,auto,*,*" columns="" class="calling-page">
+  <GridLayout rows="" class="m-t-40 m-l-20" columns="auto,auto">
+    <GridLayout
+      [visibility]="isConnected && !isDisconnected ? 'visible' : 'collapsed'"
+      class="activeCircle"
+      columns=""
+    ></GridLayout>
+    <Label
+      [visibility]="isConnected && !isDisconnected ? 'visible' : 'collapsed'"
+      text="REC.."
+      col="1"
+      verticalAlignment="middle"
+      horizontalAlignment="center"
+      class="recording m-l-5"
+      textWrap="true"
+    ></Label>
+  </GridLayout>
+
+ <Image
+    row="1"
+    class="bigCircle m-t-5"
+    stretch="aspectFill"
+    [width]="imgWidth"
+    [height]="imgWidth"
+    [src]="data.avatar"
+  ></Image>
+
+  <StackLayout row="2">
+    <Label
+      [text]="data.name"
+      class="name text-center m-t-10"
+      textWrap="true"
+    ></Label>
+    <Label
+      [text]="data.company"
+      class="description text-center m-t-9 m-b-26"
+      textWrap="true"
+    ></Label>
+  </StackLayout>
+
+  <StackLayout
+    row="3"
+    orientation="horizontal"
+    class="m-t-10"
+    horizontalAlignment="center"
+  >
+    <GridLayout rows="auto" columns="auto" class="m-l-15 m-r-15">
+      <Label
+        text="&#xe02a;"
+        [ngClass]="{ activeIcon: mute }"
+        (tap)="toggleMute()"
+        class="md callIcon  text-center f-28"
+        textWrap="true"
+      ></Label>
+    </GridLayout>
+    <GridLayout rows="auto" columns="auto" class="m-l-15 m-r-15">
+      <Label
+        text="&#xe050;"
+        *ngIf="!sound"
+        [ngClass]="{ activeIcon: sound }"
+        (tap)="toggleSound()"
+        class="md callIcon  text-center f-28"
+        textWrap="true"
+      ></Label>
+      <Label
+        text="&#xe04f;"
+        *ngIf="sound"
+        [ngClass]="{ activeIcon: sound }"
+        (tap)="toggleSound()"
+        class="md callIcon  text-center f-28"
+        textWrap="true"
+      ></Label>
+    </GridLayout>
+    <GridLayout rows="auto" columns="auto" class="m-l-15 m-r-15">
+      <Label
+        text="&#xe8a3;"
+        [ngClass]="{ activeIcon: appointment }"
+        (tap)="toggleAppointment()"
+        class="md callIcon  text-center f-28"
+        textWrap="true"
+      ></Label>
+    </GridLayout>
+  </StackLayout>
+
+  <GridLayout
+    row="4"
+    rows="*"
+    columns="auto"
+    class="m-b-20"
+    horizontalAlignment="center"
+  >
+    <StackLayout verticalAlignment="bottom">
+      <Label
+        [visibility]="!isConnected && !isDisconnected ? 'visible' : 'collapsed'"
+        text="Calling..."
+        (tap)="endCall()"
+        class="endcall white"
+        textWrap="true"
+      ></Label>
+
+      <Label
+        [visibility]="isConnected && !isDisconnected ? 'visible' : 'collapsed'"
+        text="End Call"
+        (tap)="endCall()"
+        class="endcall white"
+        textWrap="true"
+      ></Label>
+
+      <Label
+        [visibility]="!isConnected && isDisconnected ? 'visible' : 'collapsed'"
+        text="Ending..."
+        (tap)="endCall()"
+        class="endcall white"
+        textWrap="true"
+      ></Label>
+    </StackLayout>
+  </GridLayout>
+
+  <GridLayout row="5" rows="*" columns="*" class="timer m-t-10">
+    <StackLayout
+      verticalAlignment="middle"
+      [visibility]="isConnected && !isDisconnected ? 'visible' : 'collapsed'"
+    >
+      <Label
+        text="Call duration"
+        class="text-center f-18 timertext"
+        textWrap="true"
+      ></Label>
+      <Label class="text-center f-40 timertext">
+        <FormattedString>
+          <Span [text]="minutesTxt"></Span>
+          <Span text="  "></Span>
+          <Span text=":"></Span>
+          <Span text="  "></Span>
+          <Span [text]="secondsTxt"></Span>
+        </FormattedString>
+      </Label>
+    </StackLayout>
+  </GridLayout>
+</GridLayout>

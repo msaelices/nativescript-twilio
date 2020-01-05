@@ -3,11 +3,13 @@ import { CallDelegate } from "./delegate";
 
 declare var NSDictionary: any;
 declare var NSError: any;
+declare var NSJSONSerialization: any;
 
 export const getAccessToken = common.getAccessToken;
 export const initTwilio = common.initTwilio;
 export const setupCallListener = common.setupCallListener;
 export const setupPushListener = common.setupPushListener;
+export const inActiveCall = common.inActiveCall;
 
 export function unregisterPushNotifications(token: string, deviceToken: string, callback?: (error: any) => void) {
   TwilioVoice.unregisterWithAccessTokenDeviceTokenCompletion(token, deviceToken, callback);

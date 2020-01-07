@@ -1,6 +1,6 @@
 {
     "nativescript": {
-        "id": "com.dutyfill.client",
+        "id": "org.nativescript.demotwilio",
         "tns-android": {
             "version": "6.3.1"
         },

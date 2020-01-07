@@ -32,31 +32,31 @@ export function pageLoaded(args: observable.EventData) {
           dialogs.alert('disconnected');
           console.log(call);
         }
-      };
+    };
 
-      setTimeout(() => {
-        console.log('setupCallListener!');
-        setupCallListener(callListener);
-      }, 1000);
+    setTimeout(() => {
+      console.log('setupCallListener!');
+      setupCallListener(callListener);
+    }, 1000);
 
-      // listener for push notifications (incoming calls)
-      const pushListener = {
-        onPushRegistered(accessToken, deviceToken) {
-          dialogs.alert('push registration succeded');
-        },
-        onPushRegisterFailure (error) {
-          dialogs.alert(`push registration failed: ${error}`);
-        },
-        onIncomingCall(customParameters) {
-          return {
-            from: customParameters.subscriber_name
-          }
-        },
-        onAcceptCall(customParameters) {
-          console.log('OnAcceptCall fired!', customParameters);
+    // listener for push notifications (incoming calls)
+    const pushListener = {
+      onPushRegistered(accessToken, deviceToken) {
+        dialogs.alert('push registration succeded');
+      },
+      onPushRegisterFailure (error) {
+        dialogs.alert(`push registration failed: ${error}`);
+      },
+      onIncomingCall(customParameters) {
+        return {
+          from: customParameters.subscriber_name
         }
-      };
-      console.log('Registering push listeners')
-      setupPushListener(pushListener);
+      },
+      onAcceptCall(customParameters) {
+        console.log('OnAcceptCall fired!', customParameters);
+      }
+    };
+    console.log('Registering push listeners')
+    setupPushListener(pushListener);
 
 }

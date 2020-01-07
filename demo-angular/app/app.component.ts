@@ -9,8 +9,8 @@ import { RouterExtensions } from "nativescript-angular/router";
     templateUrl: "./app.component.html",
 })
 export class AppComponent implements OnInit{
-    public senderPhoneNumber: string = '+14175224402';
-    public receiverPhoneNumber: string = '+14176932641';
+    public senderPhoneNumber: string = '';
+    public receiverPhoneNumber: string = '';
 
     private twilio: Twilio;
 

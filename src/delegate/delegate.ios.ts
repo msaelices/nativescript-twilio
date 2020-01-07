@@ -1,18 +1,17 @@
 import * as common from '../twilio.common';
 
-import { ios as iosUtils } from 'tns-core-modules/utils/utils';
+// https://github.com/NativeScript/ios-runtime/issues/818
+const CallDelegate = (NSObject as any).extend({
 
-export class CallDelegate extends NSObject implements TVOCallDelegate {
-  static ObjCProtocols = [TVOCallDelegate];
-  ckprovider: CXProvider = null;
+  ckprovider: null as CXProvider,
   setupCallKitProvider(provider) {
     this.ckprovider = provider;
-  }
+  },
 
   callDidConnect(call: TVOCall) {
     console.error("callDidConnect");
     common.callIt(common.callListener, 'onConnected', call);
-  }
+  },
 
   callDidDisconnectWithError(call: TVOCall, error: NSError) {
     if (!error) {
@@ -21,33 +20,35 @@ export class CallDelegate extends NSObject implements TVOCallDelegate {
       console.error("callDidDisconnectWithError", error);
     }
     common.callIt(common.callListener, 'onDisconnected', call);
-  }
+  },
 
   callDidFailToConnectWithError(call: TVOCall, error: NSError) {
     console.debug("callDidFailToConnectWithError", error);
     common.callIt(common.callListener, 'onConnectFailure', call, error);
-  }
+  },
+}, {
+  protocols: [TVOCallDelegate]
+})
+ 
+CallDelegate.initWithOwner = (owner) => {
+  const delegate = CallDelegate.new();
+  delegate._owner = owner;
+  return delegate;
 }
 
-export class TwilioAppDelegate extends UIResponder implements UIApplicationDelegate, PKPushRegistryDelegate, TVONotificationDelegate, CXProviderDelegate {
-  public static ObjCProtocols = [
-    UIApplicationDelegate, 
-    PKPushRegistryDelegate, 
-    TVONotificationDelegate, 
-    CXProviderDelegate
-  ];
+const TwilioAppDelegate = (UIResponder as any).extend({
 
-  callInvite: TVOCallInvite;
-  call: TVOCall;
-  callKitProvider: CXProvider;
-  callKitCallController: CXCallController;
-  deviceTokenString: string;
-  incomingPushCompletionCallback: () => void;
-  callKitCompletionCallback: () => void;
-  audioDevice: TVODefaultAudioDevice;
-  callState: boolean;
-  answered: boolean;
-  activeUUID: NSUUID;
+  callInvite: undefined as TVOCallInvite,
+  call: undefined as TVOCall,
+  callKitProvider: undefined as CXProvider,
+  callKitCallController: undefined as CXCallController,
+  deviceTokenString: undefined as string,
+  incomingPushCompletionCallback: () => {}, //void,
+  callKitCompletionCallback: () => {}, //void,
+  audioDevice: undefined as TVODefaultAudioDevice,
+  callState: undefined as boolean,
+  answered: undefined as boolean,
+  activeUUID: undefined as NSUUID,
 
   applicationDidFinishLaunchingWithOptions(
     application: UIApplication,
@@ -101,7 +102,7 @@ export class TwilioAppDelegate extends UIResponder implements UIApplicationDeleg
     common.setupCallKitProvider(this.callKitProvider);
     
     return true;
-  }
+  },
 
   applicationDidBecomeActive(application: UIApplication): void {
     // console.debug(`applicationDidBecomeActive:  ${application}`);
@@ -112,7 +113,7 @@ export class TwilioAppDelegate extends UIResponder implements UIApplicationDeleg
         "Application can not receive incomming actions. It is not registered for remote notifications"
       );
     }
-  }
+  },
 
   applicationDidRegisterForRemoteNotificationsWithDeviceToken(
     application: UIApplication,
@@ -120,7 +121,7 @@ export class TwilioAppDelegate extends UIResponder implements UIApplicationDeleg
   ) {
     let token = deviceToken.toString().replace(/[<\s>]/g, "");
     console.debug(`applicationDidRegisterForRemoteNotificationsWithDeviceToken with device token ${token}`);
-  }
+  },
 
   applicationDidFailToRegisterForRemoteNotificationsWithError(
     application: UIApplication,
@@ -128,7 +129,7 @@ export class TwilioAppDelegate extends UIResponder implements UIApplicationDeleg
   ) {
     console.error("failed to register push ", error);
     common.callIt(common.pushListener, 'onPushRegisterFailure', error);
-  }
+  },
 
   applicationDidReceiveRemoteNotification(
     application: UIApplication,
@@ -137,7 +138,7 @@ export class TwilioAppDelegate extends UIResponder implements UIApplicationDeleg
     console.debug(
       "applicationDidReceiveRemoteNotification:" + JSON.stringify(userInfo)
     );
-  }
+  },
 
   applicationDidReceiveRemoteNotificationFetchCompletionHandler(
     application: UIApplication,
@@ -150,23 +151,24 @@ export class TwilioAppDelegate extends UIResponder implements UIApplicationDeleg
     );
 
     completionHandler(UIBackgroundFetchResult.NewData);
-  }
+  },
 
   applicationDidEnterBackground(application: UIApplication) {
     console.debug("APP_ENTER_IN_BACKGROUND");
-  }
+  },
+
   applicationWillEnterForeground(application: UIApplication) {
     console.debug("APP_ENTER_IN_FOREGROUND");
-  }
+  },
 
-  applicationWillTerminate(application: UIApplication) {}
+  applicationWillTerminate(application: UIApplication) {},
 
   pushRegistryDidInvalidatePushTokenForType(
     registry: PKPushRegistry,
     type: string
   ) {
     console.error("PUSHKIT : INVALID_PUSHKIT_TOKEN");
-  }
+  },
 
   pushRegistryDidReceiveIncomingPushWithPayloadForType(
     registry: PKPushRegistry,
@@ -179,7 +181,7 @@ export class TwilioAppDelegate extends UIResponder implements UIApplicationDeleg
       "PUSHKIT : INCOMING VOIP NOTIFICATION :",
       payload.dictionaryPayload.description
     );
-  }
+  },
 
   pushRegistryDidReceiveIncomingPushWithPayloadForTypeWithCompletionHandler(
     registry: PKPushRegistry,
@@ -200,7 +202,7 @@ export class TwilioAppDelegate extends UIResponder implements UIApplicationDeleg
     if (type === PKPushTypeVoIP) {
       TwilioVoice.handleNotificationDelegate(payload.dictionaryPayload, this);
     }
-  }
+  },
 
   pushRegistryDidUpdatePushCredentialsForType(
     registry: PKPushRegistry,
@@ -238,22 +240,22 @@ export class TwilioAppDelegate extends UIResponder implements UIApplicationDeleg
         console.error('Error getting access token:', error);
         return;
       });
-  }
+  },
 
   // TVONotificationDelegate interface implementation
   callInviteReceived(callInvite: TVOCallInvite) {
     console.debug("callInviteReceived");
     this.handleCallInviteReceived(callInvite);
-  }
+  },
 
   cancelledCallInviteReceived(cancelledCallInvite: TVOCancelledCallInvite) {
     console.debug("cancelledCallInviteReceived");
     this.handleCallInviteCanceled(cancelledCallInvite);
-  }
+  },
 
   notificationError(error: NSError) {
     console.error("notificationError: ", error.localizedDescription);
-  }
+  },
   // End of TVONotificationDelegate interface implementation
 
   handleCallInviteReceived(callInvite: TVOCallInvite) {
@@ -269,7 +271,7 @@ export class TwilioAppDelegate extends UIResponder implements UIApplicationDeleg
     this.callInvite = callInvite;
     this.activeUUID = callInvite.uuid;
     this.reportIncomingCall(callInvite.from, callInvite.uuid, callInvite);
-  }
+  },
 
   handleCallInviteCanceled(callInviteCanceled: TVOCancelledCallInvite) {
     console.debug("handleCallInviteCanceled");
@@ -290,14 +292,14 @@ export class TwilioAppDelegate extends UIResponder implements UIApplicationDeleg
 
     this.callInvite = null;
     this.incomingPushHandled();
-  }
+  },
 
   incomingPushHandled() {
     if (this.incomingPushCompletionCallback) {
       this.incomingPushCompletionCallback();
       this.incomingPushCompletionCallback = null;
     }
-  }
+  },
 
   reportIncomingCall(from: String, uuid: any, callInvite: TVOCallInvite) {
     console.log("richard:", callInvite.customParameters);
@@ -369,32 +371,32 @@ export class TwilioAppDelegate extends UIResponder implements UIApplicationDeleg
     };
 
     this.callKitProvider.reportNewIncomingCallWithUUIDUpdateCompletion(uuid, callUpdate, callback);
-  }
+  },
 
   // CXProviderDelegate interface implementation
   providerDidReset(provider: CXProvider) {
     console.debug('providerDidReset');
     this.audioDevice.enabled = true;
-  }
+  },
 
   providerDidActivateAudioSession(provider: CXProvider, audioSession: AVAudioSession) {
     console.debug('providerDidActivateAudioSession');
     this.audioDevice.enabled = true;
-  }
+  },
 
   providerDidBegin(provider: CXProvider) {
     console.debug('providerDidBegin');
-  }
+  },
 
   providerDidDeactivateAudioSession(provider: CXProvider, audioSession: AVAudioSession) {
     console.debug('providerDidDeactivateAudioSession');
     this.audioDevice.enabled = false;
-  }
+  },
 
   providerExecuteTransaction(provider: CXProvider, transaction: CXTransaction) {
     console.debug('providerExecuteTransaction');
     return false;
-  }
+  },
 
   providerPerformAnswerCallAction(provider: CXProvider, action: CXAnswerCallAction) {
     console.debug('providerPerformAnswerCallAction');
@@ -426,7 +428,7 @@ export class TwilioAppDelegate extends UIResponder implements UIApplicationDeleg
     common.callIt(common.pushListener, "onAcceptCall", customParameters);
     action.fulfill();
     this.callInvite = null;
-  }
+  },
 
   providerPerformEndCallAction(provider: CXProvider, action: CXEndCallAction) {
     console.debug('providerPerformEndCallAction');
@@ -438,23 +440,23 @@ export class TwilioAppDelegate extends UIResponder implements UIApplicationDeleg
     }
 
     action.fulfill();
-  }
+  },
 
   providerPerformPlayDTMFCallAction(provider: CXProvider, action: CXPlayDTMFCallAction) {
     console.debug('providerPerformPlayDTMFCallAction');
-  }
+  },
 
   providerPerformSetGroupCallAction(provider: CXProvider, action: CXSetGroupCallAction) {
     console.debug('providerPerformSetGroupCallAction');
-  }
+  },
 
   providerPerformSetHeldCallAction(provider: CXProvider, action: CXSetHeldCallAction) {
     console.debug('providerPerformSetHeldCallAction');
-  }
+  },
 
   providerPerformSetMutedCallAction(provider: CXProvider, action: CXSetMutedCallAction) {
     console.debug('providerPerformSetMutedCallAction');
-  }
+  },
 
   providerPerformStartCallAction(provider: CXProvider, action: CXStartCallAction) {
     console.debug('providerPerformStartCallAction');
@@ -462,12 +464,12 @@ export class TwilioAppDelegate extends UIResponder implements UIApplicationDeleg
     const dateStart = new Date();
     action.fulfillWithDateStarted(dateStart);
 
-  }
+  },
 
   providerTimedOutPerformingAction(provider: CXProvider, action: CXAction) {
     console.debug('providerTimedOutPerformingAction');
     action.fulfill();
-  }
+  },
   // End of CXProviderDelegate interface implementation
 
   performAnswerVoiceCall(uuid, completionHandler) {
@@ -483,7 +485,7 @@ export class TwilioAppDelegate extends UIResponder implements UIApplicationDeleg
     this.callInvite = null;
     this.callKitCompletionCallback = completionHandler;
     this.incomingPushHandled();
-  }
+  },
 
   performEndCallAction(uuid, callBack) {
     console.log("PERFORMING END CALL ACTION ON UUID:",uuid);
@@ -492,5 +494,24 @@ export class TwilioAppDelegate extends UIResponder implements UIApplicationDeleg
 
     this.callKitCallController.requestTransactionCompletion(transaction, callBack);
     console.log("END CALL SUCCESS REQUEST");
-  }
+  },
+
+}, {
+  protocols: [
+    UIApplicationDelegate, 
+    PKPushRegistryDelegate, 
+    TVONotificationDelegate, 
+    CXProviderDelegate
+  ]
+})
+
+TwilioAppDelegate.initWithOwner = (owner) => {
+  const delegate = TwilioAppDelegate.new();
+  delegate._owner = owner;
+  return delegate;
+}
+
+export {
+  CallDelegate,
+  TwilioAppDelegate
 }

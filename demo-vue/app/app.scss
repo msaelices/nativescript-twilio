@@ -1,0 +1,8 @@
+// Global SCSS styling
+// @see https://docs.nativescript.org/ui/styling
+@import "~@nativescript/theme/core";
+@import "~@nativescript/theme/default";
+
+.option {
+  min-width: 300px;
+}

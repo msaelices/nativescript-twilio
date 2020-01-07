@@ -2,11 +2,11 @@ import { Observable } from 'tns-core-modules/data/observable';
 import { fetch } from 'tns-core-modules/fetch';
 import * as dialogs from 'tns-core-modules/ui/dialogs';
 
-let accessTokenUrl: string = undefined;
+let accessTokenUrl: string = '';
 let accessTokenHeaders: any = {};
 export let callListener: any = undefined;
 export let pushListener: any = undefined;
-export let incomingCallOptions: Object = undefined;
+export let incomingCallOptions: Object = {};
 export let ckProvider: any = null;
 export let inCall: boolean = false;
 export function initTwilio(url: string, headers: any = {}) {

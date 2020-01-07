@@ -9,8 +9,8 @@ declare var android: any;
 
 export class HelloWorldModel extends Observable {
   public message: string;
-  public senderPhoneNumber: string = '+14175224402'; // Assign the default phone number from where the call will originate, or the client that it originates from i.e. client:alice
-  public phoneNumber: string = '+14176932641'; // Assign the default receiving phone number or client i.e. +12345678
+  public senderPhoneNumber: string = ''; // Assign the default phone number from where the call will originate, or the client that it originates from i.e. client:alice
+  public phoneNumber: string = ''; // Assign the default receiving phone number or client i.e. +12345678
   public option1: any = {
     key: '',
     value: '',

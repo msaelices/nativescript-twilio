@@ -8,7 +8,7 @@
 android {  
   defaultConfig {  
     generatedDensities = []
-    applicationId = "com.dutyfill.client"  
+    applicationId = "org.nativescript.demotwilio"  
   }  
   aaptOptions {  
     additionalParameters "--no-version-vectors"  

@@ -97,6 +97,12 @@ tns plugin add nativescript-twilio
     },
     onPushRegisterFailure (error) {
       dialogs.alert(`push registration failed: ${error}`);
+    },
+    onIncomingCall(customParams) {
+      // Exposed the TVOCallInvite.customParameters Variable to be able to alter "from" display name on callKit i.e.
+      return {
+        from: customParams.from_name
+      }
     }
   };
 

@@ -15,37 +15,48 @@ export function pageLoaded(args: observable.EventData) {
     const callListener = {
         onConnectFailure(call, error) {
           dialogs.alert(`connection failure: ${error}`);
+          console.log(call);
         },
         onConnected (call) {
           console.log('call connected');
+          console.log(call);
           // TODO: fix the issue of disconnecting the call after navigating
           // to some other page with the call connected
           // this should happen after 8 seconds of connecting the call
-          setTimeout(() => {
-            debugger;
-            frameModule.topmost().navigate('detail-page');
-          }, 8000);
+          // setTimeout(() => {
+          //   debugger;
+          //   frameModule.topmost().navigate('detail-page');
+          // }, 8000);
         },
         onDisconnected (call) {
           dialogs.alert('disconnected');
+          console.log(call);
         }
-      };
+    };
 
-      setTimeout(() => {
-        console.log('setupCallListener!');
-        setupCallListener(callListener);
-      }, 10000)
+    setTimeout(() => {
+      console.log('setupCallListener!');
+      setupCallListener(callListener);
+    }, 1000);
 
-      // listener for push notifications (incoming calls)
-      const pushListener = {
-        onPushRegistered(accessToken, deviceToken) {
-          dialogs.alert('push registration succeded');
-        },
-        onPushRegisterFailure (error) {
-          dialogs.alert(`push registration failed: ${error}`);
+    // listener for push notifications (incoming calls)
+    const pushListener = {
+      onPushRegistered(accessToken, deviceToken) {
+        dialogs.alert('push registration succeded');
+      },
+      onPushRegisterFailure (error) {
+        dialogs.alert(`push registration failed: ${error}`);
+      },
+      onIncomingCall(customParameters) {
+        return {
+          from: customParameters.subscriber_name
         }
-      };
-
-      setupPushListener(pushListener);
+      },
+      onAcceptCall(customParameters) {
+        console.log('OnAcceptCall fired!', customParameters);
+      }
+    };
+    console.log('Registering push listeners')
+    setupPushListener(pushListener);
 
 }
